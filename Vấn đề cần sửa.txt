@@ -1,0 +1,16 @@
+
+
+- không nên dùng @Autowire ==> thay b?ng @AllArgsConstructor, ph?n này khi h?c spring dã d? c?p\
+
+- không vi?t sql dài ? Jpa Repo ==> vi?t hibernate ==> t? map tay
+
+
+- S?a l?i ngay cách d?t tên class và tên tru?ng (không dùng d?u _ n?a) ==> r?t nghiêm tr?ng
+
+
+
+- code xong không format code ==> không theo 1 quy chu?n ==> r?t d? conflict code khi merge dù ch? là 1 d?u cách th?a
+
+
+
+- controller nh?n vào VM, không dùng DTO hay entity d? làm request body cho controller (di?n hình là hàm add c?a cla
