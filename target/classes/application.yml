@@ -1,9 +1,10 @@
 
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:Anhphuc9969
-    username: PHUCFP
-    password: 123456
+    url: jdbc:oracle:thin:@localhost:1521:db11g
+    username: QLTD
+    password: Viethoang_99
+    driver-class-name: oracle.jdbc.driver.OracleDriver
   jpa:
     hibernate:
       ddl-auto: create
