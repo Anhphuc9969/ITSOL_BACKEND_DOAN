@@ -84,24 +84,24 @@ public class UserController {
         }
     }
 
-//    @PostMapping("/info/change-password")
-//    public ResponseEntity<String> changePasswordRequest(@RequestBody PasswordDTO passwordDTO){
-//        User user = userService.loadUserFromContext();
-//        try {
-//            if(userService.verifyPassword(user, passwordDTO)){
-//                OTP otp = userService.retrieveNewOTP(user);
-//                emailService.sendSimpleMessage(user.getEmail(),
-//                        "Change password",
-//                        "OTP: " + otp.getCode() + "\nNew password: " + passwordDTO.getNewPassword());
-//                return ResponseEntity.ok().body("Check mail for OTP to commit changing");
-//            }else{
-//                return ResponseEntity.badRequest().body("Failed changing password");
-//            }
-//        }catch (RuntimeException e){
-//            return ResponseEntity.internalServerError().body(e.getMessage());
-//        }
-//    }
-//
+    @PostMapping("/info/change-password")
+    public ResponseEntity<String> changePasswordRequest(@RequestBody PasswordDTO passwordDTO){
+        User user = userService.loadUserFromContext();
+        try {
+            if(userService.verifyPassword(user, passwordDTO)){
+                OTP otp = userService.retrieveNewOTP(user);
+                emailService.sendSimpleMessage(user.getEmail(),
+                        "Change password",
+                        "OTP: " + otp.getCode() + "\nNew password: " + passwordDTO.getNewPassword());
+                return ResponseEntity.ok().body("Check mail for OTP to commit changing");
+            }else{
+                return ResponseEntity.badRequest().body("Failed changing password");
+            }
+        }catch (RuntimeException e){
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
 //    @PutMapping("/users/info/change-password")
 //    public ResponseEntity<String> changePassword(@RequestParam String otpCode, @RequestParam String password){
 //        try {
@@ -114,23 +114,23 @@ public class UserController {
 //            return ResponseEntity.badRequest().body(e.getMessage());
 //        }
 //    }
-@PostMapping("/info/change-password")
-public ResponseEntity<String> changePasswordRequest(@RequestBody PasswordDTO passwordDTO){
-    User user = userService.loadUserFromContext();
-    try {
-        if(userService.verifyPassword(user, passwordDTO)){
-            OTP otp = userService.retrieveNewOTP(user);
-            emailService.sendSimpleMessage(user.getUserName(),
-                    "Change password",
-                    "OTP: " + otp.getCode() + "\nNew password: " + passwordDTO.getNewPassword());
-            return ResponseEntity.ok().body("Check mail for OTP to commit changing");
-        }else{
-            return ResponseEntity.badRequest().body("Failed changing password");
-        }
-    }catch (RuntimeException e){
-        return ResponseEntity.internalServerError().body(e.getMessage());
-    }
-}
+//@PostMapping("/info/change-password")
+//public ResponseEntity<String> changePasswordRequest(@RequestBody PasswordDTO passwordDTO){
+//    User user = userService.loadUserFromContext();
+//    try {
+//        if(userService.verifyPassword(user, passwordDTO)){
+//            OTP otp = userService.retrieveNewOTP(user);
+//            emailService.sendSimpleMessage(user.getUserName(),
+//                    "Change password",
+//                    "OTP: " + otp.getCode() + "\nNew password: " + passwordDTO.getNewPassword());
+//            return ResponseEntity.ok().body("Check mail for OTP to commit changing");
+//        }else{
+//            return ResponseEntity.badRequest().body("Failed changing password");
+//        }
+//    }catch (RuntimeException e){
+//        return ResponseEntity.internalServerError().body(e.getMessage());
+//    }
+//}
 
     @PutMapping("/users/info/change-password")
     public ResponseEntity<String> changePassword(@RequestParam String otpCode, @RequestParam String password){

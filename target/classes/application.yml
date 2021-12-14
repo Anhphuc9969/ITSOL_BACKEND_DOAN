@@ -23,3 +23,6 @@ spring:
           auth: true
           starttls:
             enable: true
+application:
+  active-account:
+    active-url: "http://localhost:8080/active/"

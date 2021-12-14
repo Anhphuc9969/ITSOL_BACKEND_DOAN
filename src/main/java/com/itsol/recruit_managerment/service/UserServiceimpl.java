@@ -2,6 +2,7 @@ package com.itsol.recruit_managerment.service;
 
 
 import com.itsol.recruit_managerment.dto.PasswordDTO;
+import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.email.EmailServiceImpl;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
@@ -185,7 +186,19 @@ public class UserServiceimpl implements UserService{
     public OTP getOTPByUser(User user) {
         return otpRepo.findByUser(user).orElse(null);
     }
+    @Override
+    public User createUser(UserSignupDTO userSignupDTO) {
+        return User.builder()
+                .fullName(userSignupDTO.getFullName())
+                .email(userSignupDTO.getEmail())
+                .phoneNumber(userSignupDTO.getPhoneNumber())
+                .homeTown(userSignupDTO.getHomeTown())
+                .gender(userSignupDTO.getGender())
+                .userName(userSignupDTO.getUserName())
+                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
+                .build();
 
+    }
     @Override
     public void verifyOTP(OTP otp, String otpCode) {
         if(!otp.getCode().equals(otpCode)){
