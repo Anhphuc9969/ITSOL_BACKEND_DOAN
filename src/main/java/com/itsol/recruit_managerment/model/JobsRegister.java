@@ -1,16 +1,30 @@
 package com.itsol.recruit_managerment.model;
 
-import javax.persistence.*;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Type;
 
-public class JobsRegister {
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
+@Table(name = "jobs_register")
+public class JobsRegister implements Serializable {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "JOBS_REGISTER_SEQ")
     @SequenceGenerator(name = "JOBS_REGISTER_SEQ", sequenceName = "JOBS_REGISTER_SEQ", allocationSize = 1, initialValue = 1)
     int id;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     int userId;
 
@@ -34,5 +48,6 @@ public class JobsRegister {
     String cvFile;
 
     @Column(name = "is_delete", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     boolean isDelete;
 }

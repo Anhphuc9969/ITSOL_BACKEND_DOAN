@@ -4,16 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "Jobs")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Jobs {
+public class Jobs implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_ROLE_ID")
     @SequenceGenerator(name = "GEN_ROLE_ID", sequenceName = "ROLE_SEQ", allocationSize = 1)
@@ -27,28 +29,30 @@ public class Jobs {
     @JsonIgnore
     JobStatus jobStatus;
 
-    @OneToOne(targetEntity = MethodWork.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = MethodWork.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "method_work_id", nullable = false)
     @JsonIgnore
     MethodWork methodWork;
 
 
-    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "academic_level_id", nullable = false)
     @JsonIgnore
     AcademicLevel academicLevel;
 
 
-    @OneToOne(targetEntity = LevelRank.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = LevelRank.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "level_rank_id", nullable = false)
     @JsonIgnore
     LevelRank levelRank;
 
-    @Column(name = "create_id", nullable = false)
-    int createId;
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "create_id", nullable = false)
+    User createId;
 
-    @Column(name = "contact_id", nullable = false)
-    int contactId;
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "contact_id", nullable = false)
+    User contactId;
 
     @Column(name = "job_name", nullable = false)
     String jobName;
@@ -86,11 +90,11 @@ public class Jobs {
     @Column(name = "max_salary", nullable = false)
     float maxSalary;
 
-
     @Column(name = "views", nullable = false)
     int view;
 
     @Column(name = "is_delete", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     boolean isDelete;
 
 

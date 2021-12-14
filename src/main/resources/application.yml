@@ -5,14 +5,16 @@ spring:
     username: QLTD
     password: Viethoang_99
     driver-class-name: oracle.jdbc.driver.OracleDriver
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.OracleDialect
         format_sql: true
+        show_sql: true
   mail:
     host: smtp.gmail.com
     port: 587

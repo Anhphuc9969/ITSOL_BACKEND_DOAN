@@ -5,14 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class ProfileStatus {
+public class ProfileStatus implements Serializable {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROFILE_STATUS_SEQ")
@@ -26,5 +29,6 @@ public class ProfileStatus {
     String description;
 
     @Column(name = "is_delete", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     boolean isDelete;
 }
