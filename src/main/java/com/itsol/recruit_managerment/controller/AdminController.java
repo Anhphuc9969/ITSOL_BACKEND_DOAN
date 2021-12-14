@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.controller;
 
-import GennericResponse.DateTimeConstant;
+import com.itsol.recruit_managerment.GennericResponse.DateTimeConstant;
 import com.itsol.recruit_managerment.config.AccountActivationConfig;
 import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.email.EmailServiceImpl;

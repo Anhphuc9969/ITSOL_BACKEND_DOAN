@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.controller;
 
-import GennericResponse.GenericResponse;
+import com.itsol.recruit_managerment.GennericResponse.GenericResponse;
 import com.itsol.recruit_managerment.model.Company;
 import com.itsol.recruit_managerment.service.CompanyImpl;
 import org.springframework.beans.factory.annotation.Autowired;

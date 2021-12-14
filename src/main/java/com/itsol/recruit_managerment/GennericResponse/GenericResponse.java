@@ -1,4 +1,4 @@
-package GennericResponse;
+package com.itsol.recruit_managerment.GennericResponse;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;

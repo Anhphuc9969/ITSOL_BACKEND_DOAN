@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.controller;
 
-import GennericResponse.GenericResponse;
+import com.itsol.recruit_managerment.GennericResponse.GenericResponse;
 import com.itsol.recruit_managerment.dto.InformationUserDTO;
 import com.itsol.recruit_managerment.model.AcademicLevel;
 import com.itsol.recruit_managerment.model.DesiredWork;

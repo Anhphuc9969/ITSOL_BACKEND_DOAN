@@ -23,5 +23,6 @@ spring:
           auth: true
           starttls:
             enable: true
-server:
-  port=8001
+application:
+  active-account:
+    active-url: "http://localhost:8080/active/"
