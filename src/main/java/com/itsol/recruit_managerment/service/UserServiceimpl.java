@@ -2,6 +2,7 @@ package com.itsol.recruit_managerment.service;
 
 
 import com.itsol.recruit_managerment.dto.PasswordDTO;
+import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.email.EmailServiceImpl;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
@@ -10,6 +11,7 @@ import com.itsol.recruit_managerment.model.User;
 import com.itsol.recruit_managerment.repositories.IUserRespository;
 import com.itsol.recruit_managerment.repositories.OTPRepo;
 import com.itsol.recruit_managerment.repositories.RoleRepo;
+import com.itsol.recruit_managerment.repositories.UserRepo;
 import com.itsol.recruit_managerment.utils.CommonConst;
 import com.itsol.recruit_managerment.vm.UserVM;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserServiceimpl implements UserService{
+public class UserServiceimpl implements UserService {
     @Autowired
     RoleRepo roleRepo;
     @Autowired
@@ -42,6 +44,7 @@ public class UserServiceimpl implements UserService{
     EmailServiceImpl emailService;
     @Autowired
     IUserRespository iUserRespository;
+
 
     public UserServiceimpl(PasswordEncoder passwordEncoder, EmailServiceImpl emailService) {
         this.passwordEncoder = passwordEncoder;
@@ -236,6 +239,25 @@ public class UserServiceimpl implements UserService{
     }
 
     @Override
+    public User createUser(UserSignupDTO userSignupDTO) {
+        return User.builder()
+                .fullName(userSignupDTO.getFullName())
+                .email(userSignupDTO.getEmail())
+                .phoneNumber(userSignupDTO.getPhoneNumber())
+                .homeTown(userSignupDTO.getHomeTown())
+                .gender(userSignupDTO.getGender())
+                .userName(userSignupDTO.getUserName())
+                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
+                .build();
+    }
+
+    @Override
+    public Object getAllJE() {
+        return   userRepo.getAllJE();
+    }
+
+
+    @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepo.findByUserName(userName);
         if(user == null){
@@ -245,4 +267,6 @@ public class UserServiceimpl implements UserService{
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), true, true, true, user.isActive(), authorities);
     }
+
+    
 }
