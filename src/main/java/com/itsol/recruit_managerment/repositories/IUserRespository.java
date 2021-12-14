@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface IUserRespository extends JpaRepository<User,Long> {
 //    List<User> findAll();
     User findByUserName(String userName);
-
+    User findByEmail(String email);
     User getUserById(Long id);
     @Query(value = "from Users u where u.fullName like %:fullName%")
     List<User> findByFullName(@Param("fullName") String fullName);
