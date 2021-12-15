@@ -44,4 +44,6 @@ public interface UserService extends UserDetailsService {
     Object sendFogotPasswordMail(String email);
 
     User loadUserFromContext();
+
+    Object getAllJE();
 }

@@ -1,12 +1,12 @@
 
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:Anhphuc9969
-    username: PHUCFP
+    url: jdbc:oracle:thin:@localhost:1521:sa
+    username: DMM
     password: 123456
   jpa:
     hibernate:
-      ddl-auto: none
+#      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
