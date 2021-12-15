@@ -1,11 +1,9 @@
 package com.itsol.recruit_managerment.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
+
+import com.fasterxml.jackson.annotation.Js
+
+import lombok.*
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -19,6 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements Serializable {
     @Id

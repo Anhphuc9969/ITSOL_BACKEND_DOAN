@@ -1,6 +1,7 @@
 package com.itsol.recruit_managerment.service;
 
 import com.itsol.recruit_managerment.dto.PasswordDTO;
+import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
 import com.itsol.recruit_managerment.model.User;
@@ -37,6 +38,10 @@ public interface UserService extends UserDetailsService {
     boolean verifyPassword(User user, PasswordDTO passwordDTO);
 
     void changePassword(String password, User user);
+
+    User createUser(UserSignupDTO userSignupDTO);
+
+    Object sendFogotPasswordMail(String email);
 
     User loadUserFromContext();
 }

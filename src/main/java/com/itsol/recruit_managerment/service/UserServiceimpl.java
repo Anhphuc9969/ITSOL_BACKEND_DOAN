@@ -2,6 +2,7 @@ package com.itsol.recruit_managerment.service;
 
 
 import com.itsol.recruit_managerment.dto.PasswordDTO;
+import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.email.EmailServiceImpl;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
@@ -13,6 +14,7 @@ import com.itsol.recruit_managerment.repositories.RoleRepo;
 import com.itsol.recruit_managerment.utils.CommonConst;
 import com.itsol.recruit_managerment.vm.UserVM;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -183,7 +186,19 @@ public class UserServiceimpl implements UserService{
     public OTP getOTPByUser(User user) {
         return otpRepo.findByUser(user).orElse(null);
     }
+    @Override
+    public User createUser(UserSignupDTO userSignupDTO) {
+        return User.builder()
+                .fullName(userSignupDTO.getFullName())
+                .email(userSignupDTO.getEmail())
+                .phoneNumber(userSignupDTO.getPhoneNumber())
+                .homeTown(userSignupDTO.getHomeTown())
+                .gender(userSignupDTO.getGender())
+                .userName(userSignupDTO.getUserName())
+                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
+                .build();
 
+    }
     @Override
     public void verifyOTP(OTP otp, String otpCode) {
         if(!otp.getCode().equals(otpCode)){
@@ -244,5 +259,25 @@ public class UserServiceimpl implements UserService{
         List<SimpleGrantedAuthority> authorities =new ArrayList<>();
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), true, true, true, user.isActive(), authorities);
+    }
+
+    @Override
+    public Object sendFogotPasswordMail(String email) {
+        User user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("Email không tồn tại trong hệ thống");
+        }
+        Random random = new Random();
+
+        String password = random.ints(97, 123)
+                .limit(6)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        user.setPassword(passwordEncoder.encode(password));
+        userRepo.save(user);
+        emailService.sendSimpleMessage(user.getEmail(),
+                "Link FogotPassword",
+                "Mật khẩu mới của bạn là: "+ password);
+        return ResponseEntity.ok().body("check token in mail");
     }
 }
