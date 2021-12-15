@@ -1,12 +1,16 @@
 
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:Anhphuc9969
-    username: PHUCFP
-    password: 123456
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: recruitment_management_itsol
+    password: pass
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+  data:
+    rest:
+      base-path: api
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
@@ -23,3 +27,5 @@ spring:
           auth: true
           starttls:
             enable: true
+server:
+  port: 8001
