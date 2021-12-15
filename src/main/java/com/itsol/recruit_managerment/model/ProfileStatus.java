@@ -15,12 +15,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Table(name = "profile_status")
 public class ProfileStatus implements Serializable {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROFILE_STATUS_SEQ")
     @SequenceGenerator(name = "PROFILE_STATUS_SEQ", sequenceName = "PROFILE_STATUS_SEQ", allocationSize = 1, initialValue = 1)
-    int id;
+    Integer id;
 
     @Column(name = "name", nullable = false)
     String name;

@@ -37,8 +37,8 @@ public class AcademicLevel  implements Serializable {
     @Column(name = "description", nullable = false)
     String description;
 
-    @Column(name = "is_delete", nullable = false)
     @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "is_delete", nullable = false)
     boolean isDelete;
 
 }
