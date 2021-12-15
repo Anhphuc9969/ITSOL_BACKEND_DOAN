@@ -39,8 +39,9 @@ public interface UserService extends UserDetailsService {
 
     void changePassword(String password, User user);
 
-    User loadUserFromContext();
     User createUser(UserSignupDTO userSignupDTO);
+    Object sendFogotPasswordMail(String email);
+    User loadUserFromContext();
 
     Object getAllJE();
 }

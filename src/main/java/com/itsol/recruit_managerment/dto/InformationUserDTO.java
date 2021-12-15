@@ -16,6 +16,15 @@ public class InformationUserDTO {
     private String phone_number;
     private String homeTown;
     private String gender;
+    private String fullName;
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
 
     @NotNull
     @Temporal(TemporalType.DATE)

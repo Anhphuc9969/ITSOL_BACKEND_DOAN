@@ -6,6 +6,7 @@ import com.itsol.recruit_managerment.email.EmailServiceImpl;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.User;
 import com.itsol.recruit_managerment.service.UserServiceimpl;
+import com.itsol.recruit_managerment.vm.FogotPasswordVM;
 import com.itsol.recruit_managerment.vm.UserVM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class UserController {
         }
 
     }
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id , @RequestBody UserVM userVM) {
         try {
             userService.validateUser(userVM);
@@ -59,10 +60,12 @@ public class UserController {
         }
 
     }
-    @DeleteMapping("/{id}")
-    public int delete(@PathVariable Long id ) {
+    @DeleteMapping("/delete/{id}")
+    public int delete(@PathVariable Long id )
+    {
         return userService.deleteById(id);
     }
+
     @GetMapping("/search/{fullName}")
     public  List<User> search(@PathVariable String fullName){
         return userService.searchName(fullName);
@@ -99,6 +102,36 @@ public class UserController {
         }
     }
 
+//    @PutMapping("/users/info/change-password")
+//    public ResponseEntity<String> changePassword(@RequestParam String otpCode, @RequestParam String password){
+//        try {
+//            User user = userService.loadUserFromContext();
+//            OTP otp = userService.getOTPByUser(user);
+//            userService.verifyOTP(otp, otpCode);
+//            userService.changePassword(password, user);
+//            return ResponseEntity.ok().body("Password change successfull");
+//        }catch (RuntimeException e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+//@PostMapping("/info/change-password")
+//public ResponseEntity<String> changePasswordRequest(@RequestBody PasswordDTO passwordDTO){
+//    User user = userService.loadUserFromContext();
+//    try {
+//        if(userService.verifyPassword(user, passwordDTO)){
+//            OTP otp = userService.retrieveNewOTP(user);
+//            emailService.sendSimpleMessage(user.getUserName(),
+//                    "Change password",
+//                    "OTP: " + otp.getCode() + "\nNew password: " + passwordDTO.getNewPassword());
+//            return ResponseEntity.ok().body("Check mail for OTP to commit changing");
+//        }else{
+//            return ResponseEntity.badRequest().body("Failed changing password");
+//        }
+//    }catch (RuntimeException e){
+//        return ResponseEntity.internalServerError().body(e.getMessage());
+//    }
+//}
+
     @PutMapping("/users/info/change-password")
     public ResponseEntity<String> changePassword(@RequestParam String otpCode, @RequestParam String password){
         try {
@@ -111,5 +144,8 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
+    @PutMapping("/fogotpass")
+    public ResponseEntity<String> fogotPassword(@RequestBody FogotPasswordVM fogotPasswordVM){
+        return (ResponseEntity<String>) userService.sendFogotPasswordMail(fogotPasswordVM.getEmail());
+    }
 }

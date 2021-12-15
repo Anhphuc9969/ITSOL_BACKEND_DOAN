@@ -43,6 +43,8 @@ public class InformationUserController {
             DesiredWork desiredWorkEntity = desiredWorkService.findById(profileEntity.getDesiredwork().getId());
 
             InformationUserDTO result = new InformationUserDTO();
+            if(userEntity.getFullName()!=null)
+                result.setFullName(userEntity.getFullName());
             if(userEntity.getEmail()!=null)
                 result.setEmail(userEntity.getEmail());
             if(userEntity.getPhoneNumber()!=null && !userEntity.getPhoneNumber().equals(""))

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountActivationConfig {
+
     @Value("${application.active-account.active-url}")
     String activateUrl;
-
 }

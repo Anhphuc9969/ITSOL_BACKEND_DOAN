@@ -14,11 +14,9 @@ import java.util.Set;
 
 @Entity(name = "Users")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Setter
-@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements Serializable {
     @Id
@@ -48,6 +46,7 @@ public class User implements Serializable {
 
     @Column(name = "GENDER")
     String gender;
+
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "BIRTH_DAY")
