@@ -41,7 +41,7 @@ public class AccountController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody UserSignupDTO userSignupDTO) {
 
-        Role role = roleRepo.findByName("USER_ROLE");
+        Role role = roleRepo.findByName("ROLE_USER");
 
         User user = userServiceimpl.createUser(userSignupDTO);
         if (ObjectUtils.isEmpty(user)) {
