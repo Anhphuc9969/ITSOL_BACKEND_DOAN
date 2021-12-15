@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:4200/home/list-job")
+@CrossOrigin("*")
 @RequestMapping("/jobs")
 public class JobsController {
     @Autowired
     JobsServiceimpl jobsServiceimpl;
+
+
 
     @GetMapping("/getJob/{id}")
     @CrossOrigin
@@ -33,7 +35,15 @@ public class JobsController {
     @GetMapping("/getAllPage")
     @CrossOrigin
     public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
-        ResponseDTO responseDTO=jobsServiceimpl.getAllJobPage(pageNumber,pageSize);
+        ResponseDTO responseDTO = jobsServiceimpl.getAllJobPage(pageNumber, pageSize);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+
+
+    @GetMapping("/getSalary")
+    @CrossOrigin
+    public ResponseEntity<List<Jobs>> getSalary(){
+      return new ResponseEntity<List<Jobs>>(jobsServiceimpl.getSalaryJobs(),HttpStatus.OK);
+    }
+
 }

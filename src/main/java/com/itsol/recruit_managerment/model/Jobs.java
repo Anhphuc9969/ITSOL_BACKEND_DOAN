@@ -48,10 +48,12 @@ public class Jobs implements Serializable {
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "create_id", nullable = false)
+//    @JsonIgnore
     User createId;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "contact_id", nullable = false)
+//    @JsonIgnore
     User contactId;
 
     @Column(name = "job_name", nullable = false)
