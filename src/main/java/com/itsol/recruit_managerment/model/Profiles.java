@@ -6,11 +6,10 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "profiles")
@@ -37,16 +36,15 @@ public class Profiles implements Serializable {
     String skill;
 
     @Column(name = "number_years_experience", nullable = false)
-    Integer numberYearsExperience;
+    int numberYearsExperience;
 
     @Column(name = "desired_salary", nullable = false)
-    String desiredSalary;
+    int desiredSalary;
 
     @Column(name = "desired_working_address", nullable = false)
-        String desiredWorkingAddress;
+    String desiredWorkingAddress;
 
-    @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "is_delete", nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     boolean isDelete;
-
 }
