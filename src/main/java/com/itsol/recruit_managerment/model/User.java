@@ -1,9 +1,9 @@
 package com.itsol.recruit_managerment.model;
 
-
 import com.fasterxml.jackson.annotation.Js
-
-import lombok.*
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -15,16 +15,15 @@ import java.util.Set;
 
 @Entity(name = "Users")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements Serializable {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SEQ")
     @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ", allocationSize = 1, initialValue = 1)
-
     Long id;
 
     @NotBlank(message = "fullName không được để trống")
@@ -49,6 +48,8 @@ public class User implements Serializable {
     @Column(name = "GENDER")
     String gender;
 
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "BIRTH_DAY")
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

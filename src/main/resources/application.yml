@@ -8,9 +8,10 @@ spring:
   data:
     rest:
       base-path: api
+
   jpa:
     hibernate:
-      ddl-auto: none
+#      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
