@@ -25,6 +25,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/admin")
 public class AccountController {
     @Autowired
     private RoleRepo roleRepo;
