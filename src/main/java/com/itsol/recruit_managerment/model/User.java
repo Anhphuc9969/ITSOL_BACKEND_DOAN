@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "Users")
+    @Entity(name = "Users")
 @Data
 @Builder
 @NoArgsConstructor
@@ -29,7 +29,8 @@ public class User implements Serializable {
     @NotBlank(message = "fullName không được để trống")
     @Column(name = "FULL_NAME")
     String fullName;
-
+    @Column(name = "AVATAR")
+    String avatar;
     @Column(name = "EMAIL")
     String email;
 

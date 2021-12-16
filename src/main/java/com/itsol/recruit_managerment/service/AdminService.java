@@ -19,10 +19,8 @@ public class AdminService {
     UserServiceimpl userServiceimpl;
 
     public int update(UserSignupDTO userSignupDTO, Long id) {
-        User newUser = new User();
+        User newUser = iUserRespository.getUserById(id);
         try {
-
-            newUser.setId(id);
             newUser.setGender(userSignupDTO.getGender());
             newUser.setEmail(userSignupDTO.getEmail());
             newUser.setHomeTown(userSignupDTO.getHomeTown());

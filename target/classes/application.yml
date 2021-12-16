@@ -7,10 +7,12 @@ spring:
   data:
     rest:
       base-path: api
-
+#  batch:
+#    job:
+#      enabled: false
   jpa:
     hibernate:
-      ddl-auto: none
+#      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
