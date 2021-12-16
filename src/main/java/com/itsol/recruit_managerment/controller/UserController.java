@@ -1,21 +1,29 @@
 package com.itsol.recruit_managerment.controller;
 
 
+import com.itsol.recruit_managerment.constant.ConstantDateTime;
 import com.itsol.recruit_managerment.dto.PasswordDTO;
+import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.email.EmailServiceImpl;
 import com.itsol.recruit_managerment.model.OTP;
+import com.itsol.recruit_managerment.model.Role;
 import com.itsol.recruit_managerment.model.User;
 import com.itsol.recruit_managerment.service.UserServiceimpl;
 import com.itsol.recruit_managerment.vm.FogotPasswordVM;
 import com.itsol.recruit_managerment.vm.UserVM;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin (origins = "http://localhost:4200")

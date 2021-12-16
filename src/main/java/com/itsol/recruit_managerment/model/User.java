@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.model;
 
-import com.fasterxml.jackson.annotation.Js
+//import com.fasterxml.jackson.annotation.Js
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "Users")
+    @Entity(name = "Users")
 @Data
 @Builder
 @NoArgsConstructor
@@ -29,7 +29,8 @@ public class User implements Serializable {
     @NotBlank(message = "fullName không được để trống")
     @Column(name = "FULL_NAME")
     String fullName;
-
+    @Column(name = "AVATAR")
+    String avatar;
     @Column(name = "EMAIL")
     String email;
 
@@ -48,8 +49,6 @@ public class User implements Serializable {
     @Column(name = "GENDER")
     String gender;
 
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Column(name = "BIRTH_DAY")
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

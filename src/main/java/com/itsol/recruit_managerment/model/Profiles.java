@@ -20,15 +20,15 @@ public class Profiles implements Serializable {
     @SequenceGenerator(name = "PROFILES_SEQ", sequenceName = "PROFILES_SEQ", allocationSize = 1, initialValue = 1)
     Long id;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     User users;
 
-    @OneToOne(targetEntity = DesiredWork.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Desiredwork.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "desire_id", nullable = false)
-    DesiredWork desiredwork;
+    Desiredwork desiredwork;
 
-    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "academic_level_id", nullable = false)
     AcademicLevel academicLevel;
 
@@ -36,10 +36,10 @@ public class Profiles implements Serializable {
     String skill;
 
     @Column(name = "number_years_experience", nullable = false)
-    int numberYearsExperience;
+    Integer numberYearsExperience;
 
     @Column(name = "desired_salary", nullable = false)
-    int desiredSalary;
+    Integer desiredSalary;
 
     @Column(name = "desired_working_address", nullable = false)
     String desiredWorkingAddress;

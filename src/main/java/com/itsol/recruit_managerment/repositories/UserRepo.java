@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
-    //public List<InformationUserDTO> getInforbyId(@Param("userid") Integer userid);
+//    public List<InformationUserDTO> getInforbyId(@Param("userid") Integer userid);
 }

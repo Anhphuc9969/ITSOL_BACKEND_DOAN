@@ -3,7 +3,7 @@ package com.itsol.recruit_managerment.controller;
 import com.itsol.recruit_managerment.GennericResponse.GenericResponse;
 import com.itsol.recruit_managerment.dto.InformationUserDTO;
 import com.itsol.recruit_managerment.model.AcademicLevel;
-import com.itsol.recruit_managerment.model.DesiredWork;
+import com.itsol.recruit_managerment.model.Desiredwork;
 import com.itsol.recruit_managerment.model.Profiles;
 import com.itsol.recruit_managerment.model.User;
 import com.itsol.recruit_managerment.service.*;
@@ -40,7 +40,7 @@ public class InformationUserController {
 
             User userEntity = userInformationService.findByIDInformation(profileEntity.getUsers().getId());
             AcademicLevel academic_levelEntity = academic_levelService.findById(profileEntity.getAcademicLevel().getId());
-            DesiredWork desiredWorkEntity = desiredWorkService.findById(profileEntity.getDesiredwork().getId());
+            Desiredwork desiredWorkEntity = desiredWorkService.findById(profileEntity.getDesiredwork().getId());
 
             InformationUserDTO result = new InformationUserDTO();
             if(userEntity.getFullName()!=null)
@@ -103,7 +103,7 @@ public class InformationUserController {
                 profileEntity.setAcademicLevel(academicLevel);
             }
 
-            DesiredWork desiredwork = desiredWorkService.findDesiredWorkIdByDesiredworkname(form.getDesiredworkname().trim());
+            Desiredwork desiredwork = desiredWorkService.findDesiredWorkIdByDesiredworkname(form.getDesiredworkname().trim());
             if(desiredwork!=null){
                 profileEntity.setDesiredwork(desiredwork);
             }
