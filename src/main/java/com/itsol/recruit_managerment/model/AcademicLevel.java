@@ -21,7 +21,7 @@ public class AcademicLevel  implements Serializable {
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACADEMIC_LEVEL_SEQ")
     @SequenceGenerator(name = "ACADEMIC_LEVEL_SEQ", sequenceName = "ACADEMIC_LEVEL_SEQ", allocationSize = 1, initialValue = 1)
-    int id;
+    long id;
 
 //    @OneToOne(targetEntity = Jobs.class, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "jobs_id", nullable = false)

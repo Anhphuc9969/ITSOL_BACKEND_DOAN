@@ -24,9 +24,9 @@ public class Profiles implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     User users;
 
-    @OneToOne(targetEntity = DesiredWork.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Desiredwork.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "desire_id", nullable = false)
-    DesiredWork desiredwork;
+    Desiredwork desiredwork;
 
     @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_level_id", nullable = false)
@@ -36,10 +36,10 @@ public class Profiles implements Serializable {
     String skill;
 
     @Column(name = "number_years_experience", nullable = false)
-    int numberYearsExperience;
+    Integer numberYearsExperience;
 
     @Column(name = "desired_salary", nullable = false)
-    int desiredSalary;
+    Integer desiredSalary;
 
     @Column(name = "desired_working_address", nullable = false)
     String desiredWorkingAddress;

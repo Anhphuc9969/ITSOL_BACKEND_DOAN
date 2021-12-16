@@ -43,8 +43,8 @@ public class InformationUserDTO {
     private String academic_name;
 
     @NotEmpty(message = "Thiếu mức lương mong muốn")
-//    @DecimalMin(value = "1")
-    private String desired_salary;
+    @DecimalMin(value = "1")
+    private Integer desired_salary;
 
     @NotEmpty(message = "Thiếu địa chỉ làm việc mong muốn")
     private String desired_working_address;
@@ -124,12 +124,20 @@ public class InformationUserDTO {
         this.academic_name = academic_name;
     }
 
-    public String getDesired_salary() {
-        return desired_salary;
+//    public String getDesired_salary() {
+//        return desired_salary;
+//    }
+
+//    public void setDesired_salary(String desired_salary) {
+//        this.desired_salary = desired_salary;
+//    }
+
+    public void setDesired_salary(Integer desired_salary) {
+        this.desired_salary = desired_salary;
     }
 
-    public void setDesired_salary(String desired_salary) {
-        this.desired_salary = desired_salary;
+    public Integer getDesired_salary() {
+        return desired_salary;
     }
 
     public String getDesired_working_address() {
@@ -156,7 +164,7 @@ public class InformationUserDTO {
             @NotEmpty(message = "Thiếu ngày tháng năm sinh") Date birth_day, String avatar, String skill,
             @NotEmpty(message = "Thiếu số năm kinh nghiệm") @DecimalMin("0") Integer number_years_experience,
             @NotEmpty(message = "Thiếu trình độ học vấn") String academic_name,
-            @NotEmpty(message = "Thiếu mức lương mong muốn") @DecimalMin("1") String desired_salary,
+            @NotEmpty(message = "Thiếu mức lương mong muốn") @DecimalMin(value = "1") Integer desired_salary,
             @NotEmpty(message = "Thiếu địa chỉ làm việc mong muốn") String desired_working_address,
             @NotEmpty(message = "Thiếu hình thức làm việc mong muốn") String desiredworkname) {
         super();
