@@ -8,9 +8,12 @@ import com.itsol.recruit_managerment.email.EmailServiceImpl;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
 import com.itsol.recruit_managerment.model.User;
-import com.itsol.recruit_managerment.service.UserServiceimpl;
+
+import com.itsol.recruit_managerment.repositories.IUserRespository;
+import com.itsol.recruit_managerment.serviceimpl.UserServiceimpl;
 import com.itsol.recruit_managerment.vm.FogotPasswordVM;
 import com.itsol.recruit_managerment.vm.UserVM;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +31,7 @@ import java.util.Set;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/user")
-
+@RequiredArgsConstructor
 public class UserController {
     @Autowired
     private UserServiceimpl userService;
@@ -37,9 +40,18 @@ public class UserController {
     @Autowired
     private EmailServiceImpl emailService;
 
+    @Autowired
+    IUserRespository iUserRespository;
+
+
     @GetMapping("/all")
     public List<User> getAll() {
         return userService.getData();
+    }
+
+    @GetMapping("/getalluser")
+    public Object getAllUSER() {
+        return userService.getAllUSER();
     }
 
     @PostMapping("/add")
@@ -58,6 +70,13 @@ public class UserController {
 
     }
 
+
+    @GetMapping("/getuser/{id}")
+    public User getJeById(@PathVariable("id") Long id) {
+        return iUserRespository.findById(id).get();
+    }
+
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody UserVM userVM) {
         try {
@@ -71,10 +90,19 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/delete/{id}")
-    public int delete(@PathVariable Long id) {
-        return userService.deleteById(id);
+
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok().body("xóa thành công");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("failed to update user");
+        }
+
     }
+
 
     @GetMapping("/search/{fullName}")
     public List<User> search(@PathVariable String fullName) {

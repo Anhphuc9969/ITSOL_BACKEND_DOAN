@@ -25,13 +25,13 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 public class AuthorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorHeader =request.getHeader("Authorization");
-        if(authorHeader != null && authorHeader.startsWith("Bearer ")){
+        String authorHeader = request.getHeader("Authorization");
+        if (authorHeader != null && authorHeader.startsWith("Bearer ")) {
             try {
-                String token =authorHeader.substring("Bearer ".length());
+                String token = authorHeader.substring("Bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT =verifier.verify(token);
+                DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                 List<GrantedAuthority> authorities = new ArrayList<>();
@@ -40,11 +40,11 @@ public class AuthorFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(username, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 filterChain.doFilter(request, response);
-            }catch (Exception e){
+            } catch (Exception e) {
                 response.addHeader("error", e.getMessage());
                 response.sendError(FORBIDDEN.value());
             }
-        }else{
+        } else {
             filterChain.doFilter(request, response);
         }
     }

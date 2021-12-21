@@ -9,7 +9,7 @@ import java.util.Random;
 @Entity
 @Data
 public class OTP {
-    private final static Long  EXPIRED_TIME = 5 * 60 * 1000L;
+    private final static Long EXPIRED_TIME = 5 * 60 * 1000L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_OTP_ID")
@@ -20,28 +20,28 @@ public class OTP {
     @OneToOne
     private User user;
 
-    public OTP(User user){
+    public OTP(User user) {
         this.user = user;
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
-        do{
+        do {
             sb.append(String.valueOf(random.nextInt(10)));
-        }while (sb.length() < 5);
+        } while (sb.length() < 5);
         code = sb.toString();
         issueAt = System.currentTimeMillis();
     }
 
-    public OTP(){
+    public OTP() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
-        do{
+        do {
             sb.append(String.valueOf(random.nextInt(10)));
-        }while (sb.length() < 5);
+        } while (sb.length() < 5);
         this.code = sb.toString();
         this.issueAt = System.currentTimeMillis();
     }
 
-    public boolean isExpired(){
+    public boolean isExpired() {
         return this.issueAt + EXPIRED_TIME < System.currentTimeMillis();
     }
 }

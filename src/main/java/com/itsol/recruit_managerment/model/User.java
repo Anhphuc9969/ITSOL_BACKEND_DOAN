@@ -1,8 +1,8 @@
 package com.itsol.recruit_managerment.model;
 
-//import com.fasterxml.jackson.annotation.Js
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

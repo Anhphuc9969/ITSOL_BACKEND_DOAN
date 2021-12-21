@@ -3,7 +3,7 @@ package com.itsol.recruit_managerment.config;
 
 import com.itsol.recruit_managerment.security.AuthenFilter;
 import com.itsol.recruit_managerment.security.AuthorFilter;
-import com.itsol.recruit_managerment.service.UserServiceimpl;
+import com.itsol.recruit_managerment.serviceimpl.UserServiceimpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/signup").permitAll();
         http.authorizeRequests().antMatchers("/active/**").permitAll();
-        //        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/users/**,").hasAnyAuthority("ROLE_MANAGER", "ROLE_USER", "ROLE_ADMIN");
+//        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/users/**,").hasAnyAuthority("ROLE_JE", "ROLE_USER", "ROLE_ADMIN");
+//        http.authorizeRequests().antMatchers("/api/admin/**").hasAnyAuthority("ROLE_JE","ROLE_ADMIN");
+//        http.authorizeRequests().antMatchers("/**").hasRole("ROLE_ADMIN");
 //        http.authorizeRequests().anyRequest().authenticated();
         http.authorizeRequests().anyRequest().permitAll();
         http.addFilter(new AuthenFilter(authenticationManager(), appUserService));

@@ -1,4 +1,4 @@
-package com.itsol.recruit_managerment.service;
+package com.itsol.recruit_managerment.serviceimpl;
 
 
 import com.itsol.recruit_managerment.dto.PasswordDTO;
@@ -7,14 +7,17 @@ import com.itsol.recruit_managerment.email.EmailServiceImpl;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
 import com.itsol.recruit_managerment.model.User;
-
 import com.itsol.recruit_managerment.repositories.IUserRespository;
 import com.itsol.recruit_managerment.repositories.OTPRepo;
 import com.itsol.recruit_managerment.repositories.RoleRepo;
-import com.itsol.recruit_managerment.repositories.UserRepo;
+
+import com.itsol.recruit_managerment.service.UserService;
+
 import com.itsol.recruit_managerment.utils.CommonConst;
 import com.itsol.recruit_managerment.vm.UserVM;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,13 +36,13 @@ import java.util.Random;
 
 @Service
 @Transactional
-public class UserServiceimpl implements UserService{
+public class UserServiceimpl implements UserService {
     @Autowired
     RoleRepo roleRepo;
     @Autowired
-     IUserRespository userRepo;
+    IUserRespository userRepo;
     @Autowired
-     OTPRepo otpRepo;
+    OTPRepo otpRepo;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -116,6 +119,7 @@ public class UserServiceimpl implements UserService{
             return CommonConst.ERROR;
         }
     }
+
     public int deleteById(Long deletepcId) {
         try {
             iUserRespository.deleteById(deletepcId);
@@ -125,11 +129,12 @@ public class UserServiceimpl implements UserService{
             return CommonConst.ERROR;
         }
     }
-    public List<User> searchName(String fullName){
+
+    public List<User> searchName(String fullName) {
         List<User> list = new ArrayList<User>();
-        if(fullName.isEmpty()){
+        if (fullName.isEmpty()) {
             list = userRepo.findAll();
-        }else {
+        } else {
             list = userRepo.findByFullName(fullName);
         }
         return list;
@@ -159,15 +164,15 @@ public class UserServiceimpl implements UserService{
 
     @Override
     public User getUser(String username) {
-      return   userRepo.findByUserName(username);
+        return userRepo.findByUserName(username);
     }
 
     @Override
     public User getUserById(Long id) {
         try {
-            User user =  userRepo.getUserById(id);
+            User user = userRepo.getUserById(id);
             return user;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -188,11 +193,27 @@ public class UserServiceimpl implements UserService{
         return otpRepo.findByUser(user).orElse(null);
     }
 
+
+    @Override
+    public User createUser(UserSignupDTO userSignupDTO) {
+        return User.builder()
+                .fullName(userSignupDTO.getFullName())
+                .email(userSignupDTO.getEmail())
+                .phoneNumber(userSignupDTO.getPhoneNumber())
+                .homeTown(userSignupDTO.getHomeTown())
+                .gender(userSignupDTO.getGender())
+                .userName(userSignupDTO.getUserName())
+                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
+                .build();
+
+    }
+
+
     @Override
     public void verifyOTP(OTP otp, String otpCode) {
-        if(!otp.getCode().equals(otpCode)){
+        if (!otp.getCode().equals(otpCode)) {
             throw new RuntimeException("Wrong opt code");
-        }else if(otp.isExpired()){
+        } else if (otp.isExpired()) {
             throw new RuntimeException("OTP is expired");
         }
     }
@@ -200,10 +221,10 @@ public class UserServiceimpl implements UserService{
     @Override
     public OTP retrieveNewOTP(User user) {
         OTP otp = getOTPByUser(user);
-        if(otp == null){
+        if (otp == null) {
             otp = generateOTP(user);
             return otp;
-        }else{
+        } else {
             OTP newOTP = new OTP();
             otp.setCode(newOTP.getCode());
             otp.setIssueAt(newOTP.getIssueAt());
@@ -217,12 +238,22 @@ public class UserServiceimpl implements UserService{
     }
 
     @Override
+    public Object getAllJE() {
+        return userRepo.getAllJE();
+    }
+
+    @Override
+    public Object getAllUSER() {
+        return userRepo.getAllUSER();
+    }
+
+    @Override
     public boolean verifyPassword(User user, PasswordDTO passwordDTO) {
-        if(passwordDTO.getNewPassword() == null ||
+        if (passwordDTO.getNewPassword() == null ||
                 passwordDTO.getVerifyNewPassword() == null ||
                 passwordDTO.getCurrentPassword() == null ||
                 !passwordDTO.getNewPassword().equals(passwordDTO.getVerifyNewPassword()) ||
-                !passwordEncoder.matches(passwordDTO.getCurrentPassword(), user.getPassword())){
+                !passwordEncoder.matches(passwordDTO.getCurrentPassword(), user.getPassword())) {
             return false;
         }
         return true;
@@ -240,31 +271,40 @@ public class UserServiceimpl implements UserService{
     }
 
     @Override
-    public User createUser(UserSignupDTO userSignupDTO) {
-        return User.builder()
-                .fullName(userSignupDTO.getFullName())
-                .email(userSignupDTO.getEmail())
-                .phoneNumber(userSignupDTO.getPhoneNumber())
-                .homeTown(userSignupDTO.getHomeTown())
-                .gender(userSignupDTO.getGender())
-                .userName(userSignupDTO.getUserName())
-                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
-                .build();
+
+    public Page<User> getFullnameList(Pageable pageable, String userName, String fullName, String phoneNumber, String email) {
+
+        return iUserRespository.getListFullnameByContaining(pageable, userName, fullName, phoneNumber, email);
+
     }
 
-    @Override
-    public Object getAllJE() {
-        return   userRepo.getAllJE();
-    }
-
-
+//=======
+//    public User createUser(UserSignupDTO userSignupDTO) {
+//        return User.builder()
+//                .fullName(userSignupDTO.getFullName())
+//                .email(userSignupDTO.getEmail())
+//                .phoneNumber(userSignupDTO.getPhoneNumber())
+//                .homeTown(userSignupDTO.getHomeTown())
+//                .gender(userSignupDTO.getGender())
+//                .userName(userSignupDTO.getUserName())
+//                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
+//                .build();
+//    }
+//
+//    @Override
+//    public Object getAllJE() {
+//        return   userRepo.getAllJE();
+//    }
+//
+//
+//>>>>>>> main:src/main/java/com/itsol/recruit_managerment/service/UserServiceimpl.java
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepo.findByUserName(userName);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Cannot find this user");
         }
-        List<SimpleGrantedAuthority> authorities =new ArrayList<>();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), true, true, true, user.isActive(), authorities);
     }
@@ -285,7 +325,26 @@ public class UserServiceimpl implements UserService{
         userRepo.save(user);
         emailService.sendSimpleMessage(user.getEmail(),
                 "Link FogotPassword",
-                "Mật khẩu mới của bạn là: "+ password);
+                "Mật khẩu mới của bạn là: " + password);
         return ResponseEntity.ok().body("check token in mail");
+    }
+
+    public Optional<User> findById(Long id) {
+        return iUserRespository.findById(id);
+    }
+
+    public int deleteUser(Long id) {
+
+        try {
+
+            User newUser = iUserRespository.getUserById(id);
+
+            newUser.setActive(false);
+
+            iUserRespository.save(newUser);
+            return CommonConst.SUCCESS;
+        } catch (Exception e) {
+            return CommonConst.ERROR;
+        }
     }
 }
