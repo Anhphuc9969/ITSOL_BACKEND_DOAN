@@ -1,13 +1,8 @@
 package com.itsol.recruit_managerment.repositories.jobRegisterRp;
 
-import com.itsol.recruit_managerment.dto.JobsRegisterDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface JobsRegisterRepositoryJpa extends JpaRepository<JobsRegister, Integer> {

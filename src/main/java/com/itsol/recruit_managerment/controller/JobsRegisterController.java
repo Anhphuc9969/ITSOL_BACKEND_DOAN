@@ -1,14 +1,15 @@
 package com.itsol.recruit_managerment.controller;
 
-import com.itsol.recruit_managerment.dto.JobsRegisterDTO;
 import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.service.JobRegisterServiceImpl;
+import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,13 +33,13 @@ public class JobsRegisterController {
         return jobRegisterImpl.getJobsRegister(id);
     }
 
-    @GetMapping("/search")
+
+    @PostMapping("/search")
     @CrossOrigin
-    public List<JobsRegisterDTO> search(@RequestParam("searchField") String searchField, @RequestParam("values") String values) {
-        return jobRegisterImpl.search(searchField, values);
+    public List<JobRegisterSearchVm> search(@RequestBody JobRegisterSearchVm jobRegisterSearchVm) {
+        return jobRegisterImpl.search(jobRegisterSearchVm);
     }
-
-
+    
 //    @GetMapping("/getByName/{fullName}")
 //    @CrossOrigin
 //    public List<JobsRegister> getByName(@PathVariable("fullName") String fullName){

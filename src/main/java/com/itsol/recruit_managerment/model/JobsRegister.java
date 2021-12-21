@@ -51,7 +51,7 @@ public class JobsRegister implements Serializable {
 
     @Column(name = "application_time", nullable = false)
     @Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     Date applicationTime;
 
     @Column(name = "status", nullable = false)

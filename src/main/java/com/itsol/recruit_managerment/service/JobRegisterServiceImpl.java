@@ -1,10 +1,10 @@
 package com.itsol.recruit_managerment.service;
 
-import com.itsol.recruit_managerment.dto.JobsRegisterDTO;
 import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobRegisterRepo;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobsRegisterRepositoryJpa;
+import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class JobRegisterServiceImpl implements JobRegisterService {
@@ -34,8 +33,8 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     }
 
     @Override
-    public List<JobsRegisterDTO> search(String searchField, String values) {
-        List<JobsRegisterDTO> jobsRegisterDTOList = jobRegisterRepo.search(searchField, values);
+    public List<JobRegisterSearchVm> search(JobRegisterSearchVm jobRegisterSearchVm) {
+        List<JobRegisterSearchVm> jobsRegisterDTOList = jobRegisterRepo.search(jobRegisterSearchVm);
         return jobsRegisterDTOList;
     }
 
