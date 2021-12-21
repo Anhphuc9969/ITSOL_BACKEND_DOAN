@@ -2,7 +2,7 @@ package com.itsol.recruit_managerment.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class ResponseDTO<T> {
+public class CustomResponseDto<T> {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Metadata metadata;
@@ -13,10 +13,10 @@ public class ResponseDTO<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    public ResponseDTO() {
+    public CustomResponseDto() {
     }
 
-    public ResponseDTO(Metadata metadata, ErrorMessage errorMessage, T data) {
+    public CustomResponseDto(Metadata metadata, ErrorMessage errorMessage, T data) {
         this.metadata = metadata;
         this.errorMessage = errorMessage;
         this.data = data;

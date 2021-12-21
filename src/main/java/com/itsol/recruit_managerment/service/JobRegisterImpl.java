@@ -1,7 +1,7 @@
 package com.itsol.recruit_managerment.service;
 
 
-import com.itsol.recruit_managerment.dto.ResponsesDto;
+import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.repositories.JobsRegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ public class JobRegisterImpl {
     @Autowired
     JobsRegisterRepository jobsRegisterRepository;
 
-    public ResponsesDto getAllJobsRegister(Integer pageNumber, Integer pageSite) {
+    public ResponseDto getAllJobsRegister(Integer pageNumber, Integer pageSite) {
         Pageable pageable = PageRequest.of(pageNumber, pageSite, Sort.by(Sort.Direction.ASC, "applicationTime"));
 
         Page<JobsRegister> jobPage = jobsRegisterRepository.findAll(pageable);
         long totalRecord = jobPage.getTotalElements();
         List<JobsRegister> jobsRegisterList = jobPage.getContent();
-        return new ResponsesDto(totalRecord, jobsRegisterList);
+        return new ResponseDto(totalRecord, jobsRegisterList);
     }
 
     public JobsRegister getJobsRegister(int id){

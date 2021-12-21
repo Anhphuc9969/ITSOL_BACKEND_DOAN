@@ -4,9 +4,8 @@ import com.itsol.recruit_managerment.config.AccountActivationConfig;
 import com.itsol.recruit_managerment.constant.ConstantDateTime;
 
 import com.itsol.recruit_managerment.dto.Metadata;
-import com.itsol.recruit_managerment.dto.ResponseDTO;
+import com.itsol.recruit_managerment.dto.CustomResponseDto;
 
-import com.itsol.recruit_managerment.config.AccountActivationConfig;
 import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.email.EmailServiceImpl;
 import com.itsol.recruit_managerment.model.OTP;
@@ -24,9 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -144,7 +140,7 @@ public class AdminController {
 
     @GetMapping("/all")
     @ResponseBody
-    public ResponseEntity<ResponseDTO<Page<User>>> findAll(
+    public ResponseEntity<CustomResponseDto<Page<User>>> findAll(
             @RequestParam(value = "p", defaultValue = "0") int page,
             @RequestParam(value = "s", defaultValue = "10") int size,
             @RequestParam(value = "userName", required = false) String userName,
@@ -154,16 +150,16 @@ public class AdminController {
             @RequestParam(value = "fields", required = false) Set<String> fields) {
 
 
-        ResponseDTO<Page<User>> responseDTO = new ResponseDTO<>();
+        CustomResponseDto<Page<User>> customResponseDto = new CustomResponseDto<>();
 
 
         Pageable pageable = PageRequest.of(page, size);
         Page<User> p = userService.getFullnameList(pageable, userName, fullName, phoneNumber, email);
 
 
-        responseDTO.setData(p);
-        responseDTO.setMetadata(new Metadata(p.getSize(), p.getTotalElements(), p.getTotalPages()));
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        customResponseDto.setData(p);
+        customResponseDto.setMetadata(new Metadata(p.getSize(), p.getTotalElements(), p.getTotalPages()));
+        return new ResponseEntity<>(customResponseDto, HttpStatus.OK);
     }
 
 }
