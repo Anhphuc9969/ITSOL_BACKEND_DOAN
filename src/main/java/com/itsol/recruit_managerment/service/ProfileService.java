@@ -9,5 +9,7 @@ public interface ProfileService {
 
     Profiles save(Profiles profileEntity);
 
-    Profiles findByID(Long id);
+    Profiles findByUserID(Long id);
+
+    public Boolean checkUserID(Long userID);
 }
