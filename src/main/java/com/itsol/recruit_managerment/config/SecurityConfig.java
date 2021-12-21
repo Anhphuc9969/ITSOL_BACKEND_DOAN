@@ -42,11 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/signup").permitAll();
         http.authorizeRequests().antMatchers("/active/**").permitAll();
-//        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/users/**,").hasAnyAuthority("ROLE_JE", "ROLE_USER", "ROLE_ADMIN");
-//        http.authorizeRequests().antMatchers("/api/admin/**").hasAnyAuthority("ROLE_JE","ROLE_ADMIN");
-//        http.authorizeRequests().antMatchers("/**").hasRole("ROLE_ADMIN");
-//        http.authorizeRequests().anyRequest().authenticated();
-        http.authorizeRequests().anyRequest().permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/user/**,").hasAnyAuthority("ROLE_JE", "ROLE_USER", "ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/api/admin/**").hasAnyAuthority("ROLE_JE","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().anyRequest().authenticated();
+//        http.authorizeRequests().anyRequest().permitAll();
         http.addFilter(new AuthenFilter(authenticationManager(), appUserService));
         http.addFilterBefore(new AuthorFilter(), UsernamePasswordAuthenticationFilter.class);
         http.formLogin()
@@ -54,6 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .isCustomLoginPage();
         http.logout()
                 .logoutUrl("/logout")
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.MULTI_STATUS));
     }
 }

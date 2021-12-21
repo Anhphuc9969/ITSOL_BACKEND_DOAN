@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.config;
 
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
