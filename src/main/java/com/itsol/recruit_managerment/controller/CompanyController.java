@@ -18,41 +18,48 @@ import java.util.List;
 public class CompanyController {
     @Autowired
     private CompanyImpl companyService;
+
     @CrossOrigin
     @GetMapping("/all")
-    public List<Company> getCompany()
-    {
+    public List<Company> getCompany() {
         return companyService.getListAll();
     }
+
+    @CrossOrigin
+    @GetMapping("getCompanyByID/{id}")
+    public Company getCompanyById(@PathVariable("id") Integer id) {
+        return companyService.findByID(id);
+    }
+
     @CrossOrigin
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody Company newCompanyEntity){
+    public ResponseEntity<?> save(@RequestBody Company newCompanyEntity) {
         try {
-            if(newCompanyEntity.getName()==null || newCompanyEntity.getName().equals("")) {
+            if (newCompanyEntity.getName() == null || newCompanyEntity.getName().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập tên");
             }
-            if(newCompanyEntity.getEmail()==null || newCompanyEntity.getEmail().equals("")) {
+            if (newCompanyEntity.getEmail() == null || newCompanyEntity.getEmail().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập email");
             }
-            if(newCompanyEntity.getHotLine()==null || newCompanyEntity.getHotLine().equals("")) {
+            if (newCompanyEntity.getHotLine() == null || newCompanyEntity.getHotLine().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập hot line");
             }
-            if(newCompanyEntity.getDateIncorporation()==null || newCompanyEntity.getDateIncorporation().equals("")) {
+            if (newCompanyEntity.getDateIncorporation() == null || newCompanyEntity.getDateIncorporation().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập ngày thành lập");
             }
-            if(newCompanyEntity.getTaxCode()==null || newCompanyEntity.getTaxCode().equals("")) {
+            if (newCompanyEntity.getTaxCode() == null || newCompanyEntity.getTaxCode().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập mã số thuế");
             }
-            if(newCompanyEntity.getTaxDate()==null || newCompanyEntity.getTaxDate().equals("")) {
+            if (newCompanyEntity.getTaxDate() == null || newCompanyEntity.getTaxDate().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập ngày cấp mã số thuế");
             }
-            if(newCompanyEntity.getTaxPlace()==null || newCompanyEntity.getTaxPlace().equals("")) {
+            if (newCompanyEntity.getTaxPlace() == null || newCompanyEntity.getTaxPlace().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập nơi cấp mã số thuế");
             }
-            if(newCompanyEntity.getHeadOffice()==null || newCompanyEntity.getHeadOffice().equals("")) {
+            if (newCompanyEntity.getHeadOffice() == null || newCompanyEntity.getHeadOffice().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập trụ sở chính");
             }
-            if(newCompanyEntity.getLinkWeb()==null || newCompanyEntity.getLinkWeb().equals("")) {
+            if (newCompanyEntity.getLinkWeb() == null || newCompanyEntity.getLinkWeb().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập  trang web công ty");
             }
 
@@ -81,35 +88,36 @@ public class CompanyController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Integer id,@RequestBody Company newCompanyEntity){
+    @CrossOrigin
+    @PutMapping("/updateCompany/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Integer id, @RequestBody Company newCompanyEntity) {
         try {
             Company companyEntity = companyService.findByID(id);
-            if(newCompanyEntity.getName()==null || newCompanyEntity.getName().equals("")) {
+            if (newCompanyEntity.getName() == null || newCompanyEntity.getName().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập tên");
             }
-            if(newCompanyEntity.getEmail()==null || newCompanyEntity.getEmail().equals("")) {
+            if (newCompanyEntity.getEmail() == null || newCompanyEntity.getEmail().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập email");
             }
-            if(newCompanyEntity.getHotLine()==null || newCompanyEntity.getHotLine().equals("")) {
+            if (newCompanyEntity.getHotLine() == null || newCompanyEntity.getHotLine().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập hot line");
             }
-            if(newCompanyEntity.getDateIncorporation()==null || newCompanyEntity.getDateIncorporation().equals("")) {
+            if (newCompanyEntity.getDateIncorporation() == null || newCompanyEntity.getDateIncorporation().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập ngày thành lập");
             }
-            if(newCompanyEntity.getTaxCode()==null || newCompanyEntity.getTaxCode().equals("")) {
+            if (newCompanyEntity.getTaxCode() == null || newCompanyEntity.getTaxCode().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập mã số thuế");
             }
-            if(newCompanyEntity.getTaxDate()==null || newCompanyEntity.getTaxDate().equals("")) {
+            if (newCompanyEntity.getTaxDate() == null || newCompanyEntity.getTaxDate().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập ngày cấp mã số thuế");
             }
-            if(newCompanyEntity.getTaxPlace()==null || newCompanyEntity.getTaxPlace().equals("")) {
+            if (newCompanyEntity.getTaxPlace() == null || newCompanyEntity.getTaxPlace().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập nơi cấp mã số thuế");
             }
-            if(newCompanyEntity.getHeadOffice()==null || newCompanyEntity.getHeadOffice().equals("")) {
+            if (newCompanyEntity.getHeadOffice() == null || newCompanyEntity.getHeadOffice().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập trụ sở chính");
             }
-            if(newCompanyEntity.getLinkWeb()==null || newCompanyEntity.getLinkWeb().equals("")) {
+            if (newCompanyEntity.getLinkWeb() == null || newCompanyEntity.getLinkWeb().equals("")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vui lòng nhập  trang web công ty");
             }
 

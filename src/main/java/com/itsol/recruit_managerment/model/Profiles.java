@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -26,6 +28,7 @@ public class Profiles implements Serializable {
 
     @ManyToOne(targetEntity = Desiredwork.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "desire_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Desiredwork desiredwork;
 
     @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.EAGER)

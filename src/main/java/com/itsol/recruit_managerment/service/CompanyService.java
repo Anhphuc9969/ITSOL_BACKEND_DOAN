@@ -11,4 +11,5 @@ public interface CompanyService {
     Company findByID(Integer id);
 
     Company save(Company companyEntity);
+
 }
