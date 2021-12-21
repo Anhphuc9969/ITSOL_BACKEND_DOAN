@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.controller;
 
-import com.itsol.recruit_managerment.dto.ResponseDTO;
+import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.service.JobRegisterServiceImpl;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,8 +21,8 @@ public class JobsRegisterController {
 
     @GetMapping("/getAll")
     @CrossOrigin
-    public ResponseEntity<ResponseDTO<JobsRegister>> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
-        ResponseDTO<JobsRegister> response = jobRegisterImpl.getAllJobsRegister(pageNumber, pageSize);
+    public ResponseEntity<ResponseDto<JobsRegister>> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
+        ResponseDto<JobsRegister> response = jobRegisterImpl.getAllJobsRegister(pageNumber, pageSize);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

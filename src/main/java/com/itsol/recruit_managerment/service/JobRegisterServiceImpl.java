@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.service;
 
-import com.itsol.recruit_managerment.dto.ResponseDTO;
+import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobRegisterRepo;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobsRegisterRepositoryJpa;
@@ -23,13 +23,13 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     @Autowired
     JobRegisterRepo jobRegisterRepo;
 
-    public ResponseDTO<JobsRegister> getAllJobsRegister(Integer pageNumber, Integer pageSite) {
+    public ResponseDto<JobsRegister> getAllJobsRegister(Integer pageNumber, Integer pageSite) {
         Pageable pageable = PageRequest.of(pageNumber, pageSite, Sort.by(Sort.Direction.ASC, "id"));
 
         Page<JobsRegister> jobPage = jobsRegisterRepositoryJpa.findAll(pageable);
         long totalRecord = jobPage.getTotalElements();
         List<JobsRegister> jobsRegisterList = jobPage.getContent();
-        return new ResponseDTO(totalRecord, jobsRegisterList);
+        return new ResponseDto(totalRecord, jobsRegisterList);
     }
 
     @Override
