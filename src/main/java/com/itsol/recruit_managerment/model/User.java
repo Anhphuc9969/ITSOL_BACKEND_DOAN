@@ -2,6 +2,7 @@ package com.itsol.recruit_managerment.model;
 
 //import com.fasterxml.jackson.annotation.Js
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
@@ -29,7 +30,8 @@ public class User implements Serializable {
     @NotBlank(message = "fullName không được để trống")
     @Column(name = "FULL_NAME")
     String fullName;
-
+    @Column(name = "AVATAR")
+    String avatar;
     @Column(name = "EMAIL")
     String email;
 
@@ -37,6 +39,7 @@ public class User implements Serializable {
     String userName;
 
     @Column(name = "PASSWORD")
+    @JsonIgnore
     String password;
 
     @Column(name = "PHONE_NUMBER")
@@ -56,6 +59,7 @@ public class User implements Serializable {
     @Column(name = "IS_DELETE")
     int isDelete;
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Set<Role> roles = new HashSet<>();
 //@ManyToMany(fetch = FetchType.EAGER)
 //@JoinTable(name = "authority",

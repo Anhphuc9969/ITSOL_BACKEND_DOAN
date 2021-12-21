@@ -21,8 +21,6 @@ public class Desiredwork implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DESIRED_WORK_SEQ")
     @SequenceGenerator(name = "DESIRED_WORK_SEQ", sequenceName = "DESIRED_WORK_SEQ", allocationSize = 1, initialValue = 1)
     Long id;
-    @ManyToOne(targetEntity = Profiles.class, fetch = FetchType.EAGER)
-    Profiles profiles;
 
     @Column(name = "desired_work_name ", nullable = false)
     String desiredworkname;

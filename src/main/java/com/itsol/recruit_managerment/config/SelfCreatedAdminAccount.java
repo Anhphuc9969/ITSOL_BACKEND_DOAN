@@ -33,7 +33,7 @@ public class SelfCreatedAdminAccount implements CommandLineRunner {
         user = new User();
         user.setUserName("admin");
         user.setFullName("admin");
-                user.setEmail("phucdhph11448@fpt.edu.vn");
+        user.setEmail("phucdhph11448@fpt.edu.vn");
         user.setActive(true);
         user.setPassword(passwordEncoder.encode("admin"));
 
