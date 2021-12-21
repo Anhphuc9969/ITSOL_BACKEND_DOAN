@@ -10,7 +10,9 @@ import com.itsol.recruit_managerment.model.User;
 import com.itsol.recruit_managerment.repositories.IUserRespository;
 import com.itsol.recruit_managerment.repositories.OTPRepo;
 import com.itsol.recruit_managerment.repositories.RoleRepo;
+
 import com.itsol.recruit_managerment.service.UserService;
+
 import com.itsol.recruit_managerment.utils.CommonConst;
 import com.itsol.recruit_managerment.vm.UserVM;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,6 +193,7 @@ public class UserServiceimpl implements UserService {
         return otpRepo.findByUser(user).orElse(null);
     }
 
+
     @Override
     public User createUser(UserSignupDTO userSignupDTO) {
         return User.builder()
@@ -204,6 +207,7 @@ public class UserServiceimpl implements UserService {
                 .build();
 
     }
+
 
     @Override
     public void verifyOTP(OTP otp, String otpCode) {
@@ -267,12 +271,33 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
+
     public Page<User> getFullnameList(Pageable pageable, String userName, String fullName, String phoneNumber, String email) {
 
         return iUserRespository.getListFullnameByContaining(pageable, userName, fullName, phoneNumber, email);
 
     }
 
+//=======
+//    public User createUser(UserSignupDTO userSignupDTO) {
+//        return User.builder()
+//                .fullName(userSignupDTO.getFullName())
+//                .email(userSignupDTO.getEmail())
+//                .phoneNumber(userSignupDTO.getPhoneNumber())
+//                .homeTown(userSignupDTO.getHomeTown())
+//                .gender(userSignupDTO.getGender())
+//                .userName(userSignupDTO.getUserName())
+//                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
+//                .build();
+//    }
+//
+//    @Override
+//    public Object getAllJE() {
+//        return   userRepo.getAllJE();
+//    }
+//
+//
+//>>>>>>> main:src/main/java/com/itsol/recruit_managerment/service/UserServiceimpl.java
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepo.findByUserName(userName);

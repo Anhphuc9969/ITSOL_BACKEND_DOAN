@@ -51,5 +51,7 @@ public interface UserService extends UserDetailsService {
 
     User loadUserFromContext();
 
+
     Page<User> getFullnameList(Pageable pageable, String userName, String fullName, String phoneNumber, String email);
+
 }

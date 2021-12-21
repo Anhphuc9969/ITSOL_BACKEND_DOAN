@@ -1,6 +1,9 @@
 package com.itsol.recruit_managerment.model;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
@@ -14,22 +17,22 @@ import java.util.Set;
 
 @Entity(name = "Users")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements Serializable {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SEQ")
     @SequenceGenerator(name = "USERS_SEQ", sequenceName = "USERS_SEQ", allocationSize = 1, initialValue = 1)
-
     Long id;
 
     @NotBlank(message = "fullName không được để trống")
     @Column(name = "FULL_NAME")
     String fullName;
-
+    @Column(name = "AVATAR")
+    String avatar;
     @Column(name = "EMAIL")
     String email;
 
@@ -37,6 +40,7 @@ public class User implements Serializable {
     String userName;
 
     @Column(name = "PASSWORD")
+    @JsonIgnore
     String password;
 
     @Column(name = "PHONE_NUMBER")
@@ -54,7 +58,7 @@ public class User implements Serializable {
     Date birthDay;
 
     @Column(name = "IS_DELETE")
-    int isDelete;
+    Integer isDelete;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 //@ManyToMany(fetch = FetchType.EAGER)
