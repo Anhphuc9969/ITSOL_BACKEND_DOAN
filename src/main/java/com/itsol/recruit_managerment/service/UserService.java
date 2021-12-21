@@ -5,6 +5,8 @@ import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
 import com.itsol.recruit_managerment.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -43,5 +45,11 @@ public interface UserService extends UserDetailsService {
 
     Object sendFogotPasswordMail(String email);
 
+    Object getAllJE();
+
+    Object getAllUSER();
+
     User loadUserFromContext();
+
+    Page<User> getFullnameList(Pageable pageable, String userName, String fullName, String phoneNumber, String email);
 }

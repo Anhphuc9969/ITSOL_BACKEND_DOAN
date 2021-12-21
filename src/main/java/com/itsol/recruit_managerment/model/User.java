@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
@@ -48,6 +49,8 @@ public class User implements Serializable {
     String gender;
 
     @Column(name = "BIRTH_DAY")
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     Date birthDay;
 
     @Column(name = "IS_DELETE")

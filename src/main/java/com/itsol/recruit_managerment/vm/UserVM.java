@@ -8,13 +8,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.*;
 import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserVM {
     @NotEmpty
     @NotBlank(message = "fullName không được để trống")
-    @Size(max = 20,message = "tên không được vượt quá 20 kí tự")
+    @Size(max = 20, message = "tên không được vượt quá 20 kí tự")
     String fullName;
     @NotBlank(message = "Email không được để trống")
     @Email(message = "Email phải đúng định dạng")

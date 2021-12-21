@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class UserRole {
     @EmbeddedId
     private MyIdclass id;
+
     @Embeddable
     @Data
     public static class MyIdclass implements Serializable {

@@ -1,12 +1,15 @@
 package com.itsol.recruit_managerment.security;
+
 import com.auth0.jwt.algorithms.Algorithm;
+import com.itsol.recruit_managerment.serviceimpl.UserServiceimpl;
 import io.jsonwebtoken.*;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itsol.recruit_managerment.dto.AuthenDTO;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.service.UserService;
-import com.itsol.recruit_managerment.service.UserServiceimpl;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,17 +46,17 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         try {
             AuthenDTO usernamePassword = new ObjectMapper().readValue(request.getInputStream(), AuthenDTO.class);
             UserDetails userDetails = appUserService.loadUserByUsername(usernamePassword.getUsername());
-            if(!userDetails.isAccountNonLocked()){
+            if (!userDetails.isAccountNonLocked()) {
                 response.setHeader("error", "Account is not activated");
                 com.itsol.recruit_managerment.model.User user = appUserService.getUser(usernamePassword.getUsername());
-//               com.itsol.recruit_managerment.model.User user1 = appUserService.getUser(usernamePassword.getUsername());
+
                 OTP newOTP = appUserService.retrieveNewOTP(user);
                 new ObjectMapper().writeValue(response.getOutputStream(), newOTP.getCode());
             }
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(usernamePassword.getUsername(), usernamePassword.getPassword());
             return authenticationManager.authenticate(authenticationToken);
-        }catch (IOException ex){
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }

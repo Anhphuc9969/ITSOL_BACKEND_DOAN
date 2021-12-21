@@ -1,4 +1,5 @@
 package com.itsol.recruit_managerment.dto;
+
 import com.itsol.recruit_managerment.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,13 +13,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserSignupDTO {
-    private String  fullName;
-    private String  email;
+    private String fullName;
+    private String email;
     private String userName;
     private String password;
-    private String  phoneNumber;
-    private String  homeTown;
-    private String  gender;
+    private String phoneNumber;
+    private String homeTown;
+    private String gender;
     private String birthDay;
     private Set<Role> roles;
 }
