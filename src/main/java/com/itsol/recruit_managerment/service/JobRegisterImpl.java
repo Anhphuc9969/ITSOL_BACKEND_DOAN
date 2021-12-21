@@ -20,7 +20,6 @@ public class JobRegisterImpl {
 
     public ResponseDto getAllJobsRegister(Integer pageNumber, Integer pageSite) {
         Pageable pageable = PageRequest.of(pageNumber, pageSite, Sort.by(Sort.Direction.ASC, "applicationTime"));
-
         Page<JobsRegister> jobPage = jobsRegisterRepository.findAll(pageable);
         long totalRecord = jobPage.getTotalElements();
         List<JobsRegister> jobsRegisterList = jobPage.getContent();

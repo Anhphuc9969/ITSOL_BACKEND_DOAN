@@ -13,4 +13,12 @@ public interface JobRepo extends JpaRepository<Jobs,Long> {
 
     @Query(value = "select * from jobs WHERE BETWEEN MAX_SALARY>=18000", nativeQuery = true)
     List<Jobs> getSalaryJob();
+
+//    @Query(value ="", nativeQuery = true )
+//    List<Jobs> getJobDay();
+
+
+//    @Query(value = "",nativeQuery = true)
+//    List<Jobs> getJobName();
+
 }
