@@ -1,8 +1,8 @@
 package com.itsol.recruit_managerment.service;
 
-import com.itsol.recruit_managerment.model.Desiredwork;
+import com.itsol.recruit_managerment.model.DesiredWork;
 
 public interface DesireWorkService {
-    Desiredwork findById(Long id);
-    Desiredwork findDesiredWorkIdByDesiredworkname(String desiredworkname);
+    DesiredWork findById(Long id);
+    DesiredWork findDesiredWorkIdByDesiredworkname(String desiredworkname);
 }
