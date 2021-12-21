@@ -24,9 +24,9 @@ public class Profiles implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     User users;
 
-    @ManyToOne(targetEntity = Desiredwork.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = DesiredWork.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "desire_id", nullable = false)
-    Desiredwork desiredwork;
+    DesiredWork desiredwork;
 
     @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "academic_level_id", nullable = false)
