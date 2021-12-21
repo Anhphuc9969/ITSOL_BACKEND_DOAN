@@ -15,12 +15,14 @@ import java.io.Serializable;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "desiredwork")
-public class Desiredwork implements Serializable {
+public class DesiredWork implements Serializable {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DESIRED_WORK_SEQ")
     @SequenceGenerator(name = "DESIRED_WORK_SEQ", sequenceName = "DESIRED_WORK_SEQ", allocationSize = 1, initialValue = 1)
     Long id;
+    @OneToOne(mappedBy = "desiredwork", fetch = FetchType.EAGER)
+    Profiles profiles;
 
     @Column(name = "desired_work_name ", nullable = false)
     String desiredworkname;
