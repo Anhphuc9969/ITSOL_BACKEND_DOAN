@@ -9,7 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseDTO<T>{
-
     long totalRecord;
     List<T> data;
 }
