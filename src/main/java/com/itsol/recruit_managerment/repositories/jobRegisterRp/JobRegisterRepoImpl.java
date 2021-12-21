@@ -34,7 +34,7 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
                 stringBuilder.append(" and js.status_name = :statusName");
                 map.put("statusName", values);
             }
-            if (jobsRegisterDTO.getApplicationTime().toString().equalsIgnoreCase(searchField)  && DataUtil.isNotNullAndEmptyString(values)) {
+            if (jobsRegisterDTO.getApplicationTime().toString().equalsIgnoreCase(searchField) && DataUtil.isNotNullAndEmptyString(values)) {
                 stringBuilder.append(" and jr.application_time = :applicationTime");
                 map.put("applicationTime", values);
             }

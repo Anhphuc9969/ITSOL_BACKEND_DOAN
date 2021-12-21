@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class JobRegisterServiceImpl implements JobRegisterService{
+public class JobRegisterServiceImpl implements JobRegisterService {
 
     @Autowired
     JobsRegisterRepositoryJpa jobsRegisterRepositoryJpa;
@@ -40,7 +40,7 @@ public class JobRegisterServiceImpl implements JobRegisterService{
     }
 
     @Override
-    public JobsRegister getJobsRegister(int id){
+    public JobsRegister getJobsRegister(int id) {
         return jobsRegisterRepositoryJpa.findById(id);
     }
 

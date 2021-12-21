@@ -34,7 +34,7 @@ public class JobsRegisterController {
 
     @GetMapping("/search")
     @CrossOrigin
-    public List<JobsRegisterDTO> search(@RequestParam("searchField") String searchField, @RequestParam("values") String values){
+    public List<JobsRegisterDTO> search(@RequestParam("searchField") String searchField, @RequestParam("values") String values) {
         return jobRegisterImpl.search(searchField, values);
     }
 
@@ -56,7 +56,6 @@ public class JobsRegisterController {
 //    public List<JobsRegister> getByVacancies(@PathVariable("vacancies") String vacancies){
 //        return jobRegisterImpl.searchVacancies(vacancies);
 //    }
-
 
 
 }
