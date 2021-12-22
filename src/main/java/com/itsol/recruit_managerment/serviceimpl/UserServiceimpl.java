@@ -196,6 +196,10 @@ public class UserServiceimpl implements UserService {
 
     @Override
     public User createUser(UserSignupDTO userSignupDTO) {
+       User userSearch =  userRepo.findByEmail(userSignupDTO.getEmail());
+       if(userSearch !=null){
+           return null;
+       }
         return User.builder()
                 .fullName(userSignupDTO.getFullName())
                 .email(userSignupDTO.getEmail())

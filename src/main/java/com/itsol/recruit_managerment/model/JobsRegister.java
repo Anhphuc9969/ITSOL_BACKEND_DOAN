@@ -2,6 +2,7 @@ package com.itsol.recruit_managerment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "jobs_register")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class JobsRegister implements Serializable {
 
     @Id
@@ -29,18 +31,27 @@ public class JobsRegister implements Serializable {
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     User user;
 
-    @ManyToOne(targetEntity = ProfileStatus.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "profile_status_id", nullable = false)
-    ProfileStatus profileStatus;
+    @OneToOne(targetEntity = Jobs.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "jobs_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    Jobs jobs;
 
-    @Column(name = "vacancies", nullable = false)
-    String vacancies;
+    @OneToOne(targetEntity = JobStatus.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "job_status_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    JobStatus jobStatus;
+
+    @OneToOne(targetEntity = Profiles.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "profiles_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    Profiles profiles;
 
     @Column(name = "application_time", nullable = false)
     @Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     Date applicationTime;
 
     @Column(name = "status", nullable = false)

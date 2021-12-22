@@ -20,8 +20,6 @@ public class JobsController {
 
 
 
-
-
     @GetMapping("/getJob/{id}")
     @CrossOrigin
     public Jobs getJobs(@PathVariable("id") Long id) {

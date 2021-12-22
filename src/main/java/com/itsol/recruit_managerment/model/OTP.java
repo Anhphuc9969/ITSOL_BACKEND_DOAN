@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class OTP {
     private String code;
     private Long issueAt;
     @OneToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     public OTP(User user) {

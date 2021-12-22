@@ -3,14 +3,10 @@ package com.itsol.recruit_managerment.controller;
 import com.itsol.recruit_managerment.GennericResponse.GenericResponse;
 import com.itsol.recruit_managerment.dto.InformationUserDTO;
 import com.itsol.recruit_managerment.model.AcademicLevel;
-import com.itsol.recruit_managerment.model.Desiredwork;
+import com.itsol.recruit_managerment.model.DesiredWork;
 import com.itsol.recruit_managerment.model.Profiles;
 import com.itsol.recruit_managerment.model.User;
-import com.itsol.recruit_managerment.request.InformationUserRequest;
-import com.itsol.recruit_managerment.service.AcademicLevelService;
-import com.itsol.recruit_managerment.service.DesireWorkService;
-import com.itsol.recruit_managerment.service.ProfileService;
-import com.itsol.recruit_managerment.service.UserInformationService;
+import com.itsol.recruit_managerment.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,111 +33,103 @@ public class InformationUserController {
 
     @Autowired
     private AcademicLevelService academic_levelService;
-
-    @CrossOrigin("*")
     @GetMapping("/getInformationUserById/{id}")
-    public ResponseEntity<?> getInformationUserById(@PathVariable("id") Long userId) {
+    public ResponseEntity<?> getInformationUserById(@PathVariable("id") Long id){
         try {
-            Profiles profileEntity = profileService.findByUserID(userId);
-            GenericResponse<Object> response = new GenericResponse<>(new Date(), HttpStatus.OK,
-                    "Thành công", profileEntity);
+            Profiles profileEntity = profileService.findByUserID(id);
+
+            User userEntity = userInformationService.findByIDInformation(profileEntity.getUsers().getId());
+            AcademicLevel academic_levelEntity = academic_levelService.findById(profileEntity.getAcademicLevel().getId());
+            DesiredWork desiredWorkEntity = desiredWorkService.findById(profileEntity.getDesiredwork().getId());
+
+            InformationUserDTO result = new InformationUserDTO();
+            if(userEntity.getFullName()!=null)
+                result.setFullName(userEntity.getFullName());
+            if(userEntity.getEmail()!=null)
+                result.setEmail(userEntity.getEmail());
+            if(userEntity.getPhoneNumber()!=null && !userEntity.getPhoneNumber().equals(""))
+                result.setPhone_number(userEntity.getPhoneNumber());
+            if(userEntity.getHomeTown()!=null && !userEntity.getHomeTown().equals(""))
+                result.setHomeTown(userEntity.getHomeTown());
+            if(userEntity.getGender()!=null && !userEntity.getGender().equals(""))
+                result.setGender(userEntity.getGender());
+            if(userEntity.getBirthDay()!=null)
+                result.setBirth_day(userEntity.getBirthDay());
+            if(profileEntity.getSkill()!=null && !profileEntity.getSkill().equals(""))
+                result.setSkill(profileEntity.getSkill());
+            if(profileEntity.getNumberYearsExperience()!=null)
+                result.setNumber_years_experience(profileEntity.getNumberYearsExperience());
+            if(profileEntity.getDesiredWorkingAddress()!=null && !profileEntity.getDesiredWorkingAddress().equals(""))
+                result.setDesired_working_address(profileEntity.getDesiredWorkingAddress());
+            if(profileEntity.getDesiredSalary()!=null)
+                result.setDesired_salary(profileEntity.getDesiredSalary());
+            if(academic_levelEntity!=null){
+                if(academic_levelEntity.getAcademicName()!=null && !academic_levelEntity.getAcademicName().equals(""))
+                    result.setAcademic_name(academic_levelEntity.getAcademicName());
+            }
+            if(desiredWorkEntity.getDesiredworkname()!=null && !desiredWorkEntity.getDesiredworkname().equals(""))
+                result.setDesiredworkname(desiredWorkEntity.getDesiredworkname());
+
+            GenericResponse<Object> response = new GenericResponse<Object>(new Date(), HttpStatus.OK,
+                    "Thành công", result);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Có lỗi xảy ra, vui lòng kiểm tra lại");
         }
     }
-
-    @CrossOrigin("*")
     @PutMapping("/updateInformationUserById/{id}")
-    public ResponseEntity<?> getInformationUserById(@PathVariable("id") Long userId, @Valid @RequestBody InformationUserRequest informationUserRequest) {
+    public ResponseEntity<?> updateInformationUserById(@PathVariable("id") Long id,@Valid @RequestBody InformationUserDTO form){
         try {
-            //Kiểm tra tài khoản có tồn tại không
-            User userFind = userInformationService.findByIDInformation(userId);
-            if (userFind == null)
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy thông tin user với id=" + userId);
 
-            InformationUserRequest result = new InformationUserRequest();
+            Profiles profileEntity = profileService.findByUserID(id);
 
-            Profiles profileEntity = profileService.findByUserID(userId);
-            if (profileEntity == null)
-                profileEntity = new Profiles();
+            User userEntity = userInformationService.findByIDInformation(profileEntity.getUsers().getId());
 
+            userEntity.setEmail(form.getEmail().trim());
+            userEntity.setPhoneNumber(form.getPhone_number().trim());
+            userEntity.setHomeTown(form.getHomeTown());
+            userEntity.setGender(form.getGender());
+            userEntity.setBirthDay(form.getBirth_day());
 
-            result.setId(profileEntity.getId());
-            if (informationUserRequest.getDelete() != null)
-                profileEntity.setDelete(informationUserRequest.getDelete());
-            if (informationUserRequest.getDesiredSalary() != null)
-                profileEntity.setDesiredSalary(informationUserRequest.getDesiredSalary());
-            if (informationUserRequest.getSkill() != null)
-                profileEntity.setSkill(informationUserRequest.getSkill().trim());
-            if (informationUserRequest.getDesiredWorkingAddress() != null)
-                profileEntity.setDesiredWorkingAddress(informationUserRequest.getDesiredWorkingAddress().trim());
+            profileEntity.setSkill(form.getSkill().trim());
+            profileEntity.setNumberYearsExperience(form.getNumber_years_experience());
+            profileEntity.setDesiredSalary(form.getDesired_salary());
+            profileEntity.setDesiredWorkingAddress(form.getDesired_working_address().trim());
 
-
-            if (informationUserRequest.getUsers() != null) {
-                if (informationUserRequest.getUsers().getAvatar() != null)
-                    userFind.setAvatar(informationUserRequest.getUsers().getAvatar().trim());
-                if (informationUserRequest.getUsers().getIsDelete() != null)
-                    userFind.setIsDelete(informationUserRequest.getUsers().getIsDelete());
-                if (informationUserRequest.getUsers().getBirthDay() != null)
-                    userFind.setBirthDay(informationUserRequest.getUsers().getBirthDay());
-                if (informationUserRequest.getUsers().getFullName() != null)
-                    userFind.setFullName(informationUserRequest.getUsers().getFullName().trim());
-                if (informationUserRequest.getUsers().getPhoneNumber() != null)
-                    userFind.setPhoneNumber(informationUserRequest.getUsers().getPhoneNumber());
-                if (informationUserRequest.getUsers().getUserName() != null)
-                    userFind.setUserName(informationUserRequest.getUsers().getUserName().trim());
-                if (informationUserRequest.getUsers().getEmail() != null)
-                    userFind.setEmail(informationUserRequest.getUsers().getEmail().trim());
-                if (informationUserRequest.getUsers().getGender() != null)
-                    userFind.setGender(informationUserRequest.getUsers().getGender().trim());
-                if (informationUserRequest.getUsers().getHomeTown() != null)
-                    userFind.setHomeTown(informationUserRequest.getUsers().getHomeTown().trim());
+            AcademicLevel academicLevel = academic_levelService.findAcademic_nameById(form.getAcademic_name().trim());
+            if(academicLevel!=null){
+                profileEntity.setAcademicLevel(academicLevel);
             }
 
-
-            Desiredwork desiredwork = null;
-            if (profileEntity.getDesiredwork() != null) {
-                desiredwork = desiredWorkService.findById(profileEntity.getDesiredwork().getId());
-            }
-            if (desiredwork == null)
-                desiredwork = new Desiredwork();
-            if (informationUserRequest.getDesiredwork() != null) {
-                if (informationUserRequest.getDesiredwork().getDesiredworkname() != null)
-                    desiredwork.setDesiredworkname(informationUserRequest.getDesiredwork().getDesiredworkname().trim());
-                if (informationUserRequest.getDesiredwork().getDescription() != null)
-                    desiredwork.setDescription(informationUserRequest.getDesiredwork().getDescription().trim());
+            DesiredWork desiredwork = desiredWorkService.findDesiredWorkIdByDesiredworkname(form.getDesiredworkname().trim());
+            if(desiredwork!=null){
+                profileEntity.setDesiredwork(desiredwork);
             }
 
+            InformationUserDTO result = new InformationUserDTO();
 
-            AcademicLevel academicLevel = null;
-            if (profileEntity.getAcademicLevel() != null) {
-                academicLevel = academic_levelService.findById(profileEntity.getAcademicLevel().getId());
-            }
-            if (academicLevel == null)
-                academicLevel = new AcademicLevel();
+            result.setEmail(form.getEmail());
+            result.setPhone_number(form.getPhone_number());
+            result.setHomeTown(form.getHomeTown());
+            result.setGender(form.getGender());
+            result.setBirth_day(form.getBirth_day());
+            result.setSkill(form.getSkill());
+            result.setNumber_years_experience(form.getNumber_years_experience());
+            result.setDesired_salary(form.getDesired_salary());
+            result.setDesired_working_address(form.getDesired_working_address());
+            result.setAcademic_name(form.getAcademic_name());
+            result.setDesiredworkname(form.getDesiredworkname());
 
-            if (informationUserRequest.getAcademicLevel() != null) {
-                if (informationUserRequest.getAcademicLevel().getAcademicName() != null)
-                    academicLevel.setAcademicName(informationUserRequest.getAcademicLevel().getAcademicName().trim());
-                if (informationUserRequest.getAcademicLevel().getDescription() != null)
-                    academicLevel.setDescription(informationUserRequest.getAcademicLevel().getDescription().trim());
-            }
+            GenericResponse<Object> response = new GenericResponse<Object>(new Date(), HttpStatus.OK,
+                    "Thành công", result);
 
-
-            desiredwork = desiredWorkService.save(desiredwork);
-            academicLevel = academic_levelService.save(academicLevel);
-            userFind = userInformationService.saveInformation(userFind);
-            profileEntity.setUsers(userFind);
-            profileEntity.setAcademicLevel(academicLevel);
-            profileEntity.setDesiredwork(desiredwork);
             profileEntity = profileService.save(profileEntity);
-            GenericResponse<Object> response = new GenericResponse<>(new Date(), HttpStatus.OK,
-                    "Thành công", profileEntity);
+            userEntity = userInformationService.saveInformation(userEntity);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Có lỗi xảy ra, vui lòng kiểm tra lại");
         }
     }

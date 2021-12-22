@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Users_Roles")
+@Table(name = "users_roles")
 @Data
 public class UserRole {
     @EmbeddedId

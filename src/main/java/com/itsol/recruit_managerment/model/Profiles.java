@@ -9,12 +9,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "profiles")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Profiles implements Serializable {
     @Id
     @Column(name="id",nullable = false)
@@ -22,17 +22,19 @@ public class Profiles implements Serializable {
     @SequenceGenerator(name = "PROFILES_SEQ", sequenceName = "PROFILES_SEQ", allocationSize = 1, initialValue = 1)
     Long id;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "user_id", nullable = false)
     User users;
 
-    @ManyToOne(targetEntity = Desiredwork.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = DesiredWork.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "desire_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    Desiredwork desiredwork;
+    DesiredWork desiredwork;
 
-    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_level_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     AcademicLevel academicLevel;
 
     @Column(name = "skill", nullable = false)

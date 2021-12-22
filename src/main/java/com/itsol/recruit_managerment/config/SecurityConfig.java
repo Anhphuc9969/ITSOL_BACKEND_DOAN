@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilter(new AuthenFilter(authenticationManager(), appUserService));
         http.addFilterBefore(new AuthorFilter(), UsernamePasswordAuthenticationFilter.class);
 //        http.formLogin()
-////                .loginProcessingUrl("/login")
+//                .loginProcessingUrl("/login")
 //                .isCustomLoginPage();
         http.logout()
                 .logoutUrl("/logout")

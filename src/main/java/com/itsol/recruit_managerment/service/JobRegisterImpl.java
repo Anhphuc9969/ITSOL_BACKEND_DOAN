@@ -3,7 +3,7 @@ package com.itsol.recruit_managerment.service;
 
 import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.JobsRegister;
-import com.itsol.recruit_managerment.repositories.JobsRegisterRepository;
+import com.itsol.recruit_managerment.repositories.jobRegisterRp.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +17,7 @@ import java.util.List;
 public class JobRegisterImpl {
 
     @Autowired
-    JobsRegisterRepository jobsRegisterRepository;
+    JobsRegisterRepositoryJpa jobsRegisterRepository;
 
     public ResponseDto getAllJobsRegister(Integer pageNumber, Integer pageSite) {
         Pageable pageable = PageRequest.of(pageNumber, pageSite, Sort.by(Sort.Direction.ASC, "applicationTime"));
