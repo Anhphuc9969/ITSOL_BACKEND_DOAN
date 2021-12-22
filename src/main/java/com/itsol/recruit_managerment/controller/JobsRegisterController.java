@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/{$spring.data.rest.base-path}/jobsRegister")
+@RequestMapping("/{$spring.data.rest.base-path}/admin/jobsRegister")
 
 public class JobsRegisterController {
 
