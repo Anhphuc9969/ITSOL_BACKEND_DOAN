@@ -6,5 +6,5 @@ import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import java.util.List;
 
 public interface JobRegisterRepo {
-    List<JobRegisterSearchVm> search(JobRegisterSearchVm jobRegisterSearchVm);
+    List<JobsRegister> search(JobRegisterSearchVm jobRegisterSearchVm);
 }

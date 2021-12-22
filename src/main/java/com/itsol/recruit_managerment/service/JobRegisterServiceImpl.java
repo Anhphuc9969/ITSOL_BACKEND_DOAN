@@ -33,9 +33,9 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     }
 
     @Override
-    public List<JobRegisterSearchVm> search(JobRegisterSearchVm jobRegisterSearchVm) {
-        List<JobRegisterSearchVm> jobsRegisterDTOList = jobRegisterRepo.search(jobRegisterSearchVm);
-        return jobsRegisterDTOList;
+    public List<JobsRegister> search(JobRegisterSearchVm jobRegisterSearchVm) {
+        List<JobsRegister> jobsRegister = jobRegisterRepo.search(jobRegisterSearchVm);
+        return jobsRegister;
     }
 
     @Override

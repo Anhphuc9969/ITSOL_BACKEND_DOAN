@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +15,6 @@ public class JobRegisterSearchVm {
     String applicantName;
     String positionName;
     Integer jobRegisterStatus;
-    Date applicationTimeFrom;
-    Date applicationTimeTo;
+    String applicationTimeFrom;
+    String applicationTimeTo;
 }

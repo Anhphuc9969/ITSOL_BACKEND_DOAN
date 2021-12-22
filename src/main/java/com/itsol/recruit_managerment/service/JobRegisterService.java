@@ -9,7 +9,7 @@ import java.util.List;
 public interface JobRegisterService {
     ResponseDto<JobsRegister> getAllJobsRegister(Integer pageNumber, Integer pageSite);
 
-    List<JobRegisterSearchVm> search(JobRegisterSearchVm jobRegisterSearchVm);
+    List<JobsRegister> search(JobRegisterSearchVm jobRegisterSearchVm);
 
     JobsRegister getJobsRegister(int id);
 

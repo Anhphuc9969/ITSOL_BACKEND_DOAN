@@ -35,7 +35,7 @@ public class JobsRegisterController {
 
     @PostMapping("/search")
     @CrossOrigin
-    public List<JobRegisterSearchVm> search(@RequestBody JobRegisterSearchVm jobRegisterSearchVm) {
+    public List<JobsRegister> search(@RequestBody JobRegisterSearchVm jobRegisterSearchVm) {
         return jobRegisterImpl.search(jobRegisterSearchVm);
     }
     
