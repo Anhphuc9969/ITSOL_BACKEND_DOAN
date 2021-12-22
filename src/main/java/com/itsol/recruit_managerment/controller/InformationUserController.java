@@ -56,7 +56,8 @@ public class InformationUserController {
     @PutMapping("/updateInformationUserById/{id}")
     public ResponseEntity<?> getInformationUserById(@PathVariable("id") Long userId, @Valid @RequestBody InformationUserRequest informationUserRequest) {
         try {
-            //Kiểm tra tài khoản có tồn tại không
+
+
             User userFind = userInformationService.findByIDInformation(userId);
             if (userFind == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy thông tin user với id=" + userId);
@@ -101,10 +102,11 @@ public class InformationUserController {
             }
 
 
-            Desiredwork desiredwork = null;
+            Desiredwork desiredwork = new Desiredwork();
             if (profileEntity.getDesiredwork() != null) {
                 desiredwork = desiredWorkService.findById(profileEntity.getDesiredwork().getId());
             }
+            desiredwork.setDesiredworkname(informationUserRequest.getDesiredworkname());
             if (desiredwork == null)
                 desiredwork = new Desiredwork();
             if (informationUserRequest.getDesiredwork() != null) {
@@ -113,12 +115,19 @@ public class InformationUserController {
                 if (informationUserRequest.getDesiredwork().getDescription() != null)
                     desiredwork.setDescription(informationUserRequest.getDesiredwork().getDescription().trim());
             }
+            userFind.setFullName(informationUserRequest.getFullName());
+            userFind.setEmail(informationUserRequest.getEmail());
+            userFind.setHomeTown(informationUserRequest.getHomeTown());
+            userFind.setGender(informationUserRequest.getGender());
+            userFind.setBirthDay(informationUserRequest.getBirthDay());
+            userFind.setPhoneNumber(informationUserRequest.getPhoneNumber());
 
-
-            AcademicLevel academicLevel = null;
+            AcademicLevel academicLevel = new AcademicLevel();
             if (profileEntity.getAcademicLevel() != null) {
                 academicLevel = academic_levelService.findById(profileEntity.getAcademicLevel().getId());
             }
+            academicLevel.setAcademicName(informationUserRequest.getAcademicName());
+
             if (academicLevel == null)
                 academicLevel = new AcademicLevel();
 
@@ -128,7 +137,6 @@ public class InformationUserController {
                 if (informationUserRequest.getAcademicLevel().getDescription() != null)
                     academicLevel.setDescription(informationUserRequest.getAcademicLevel().getDescription().trim());
             }
-
 
             desiredwork = desiredWorkService.save(desiredwork);
             academicLevel = academic_levelService.save(academicLevel);

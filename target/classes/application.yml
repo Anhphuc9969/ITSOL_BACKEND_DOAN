@@ -39,3 +39,5 @@ application:
   active-account:
     active-url: "http://localhost:8080/active/"
 
+#  spring.servlet.multipart.max-file-size=1MB
+#  spring.servlet.multipart.max-request-size=500MB

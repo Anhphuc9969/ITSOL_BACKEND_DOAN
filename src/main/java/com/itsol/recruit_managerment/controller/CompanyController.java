@@ -3,14 +3,23 @@ package com.itsol.recruit_managerment.controller;
 import com.itsol.recruit_managerment.GennericResponse.GenericResponse;
 import com.itsol.recruit_managerment.model.Company;
 import com.itsol.recruit_managerment.service.CompanyImpl;
+import org.apache.tomcat.jni.Directory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
+import static java.nio.file.Paths.get;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import static java.nio.file.Files.copy;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 
 @RestController
 @RequestMapping("/company")
@@ -18,7 +27,7 @@ import java.util.List;
 public class CompanyController {
     @Autowired
     private CompanyImpl companyService;
-
+    public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads/";
     @CrossOrigin
     @GetMapping("/all")
     public List<Company> getCompany() {
@@ -145,5 +154,16 @@ public class CompanyController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Có lỗi xảy ra, vui lòng kiểm tra lại");
         }
     }
-
+    @PostMapping("/file/upload")
+//    @CrossOrigin
+    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles) throws IOException {
+        List<String> filenames = new ArrayList<>();
+        for (MultipartFile file : multipartFiles) {
+            String filename = StringUtils.cleanPath(file.getOriginalFilename());
+            Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
+            copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
+            filenames.add(filename);
+        }
+        return ResponseEntity.ok().body(filenames);
+    }
 }
