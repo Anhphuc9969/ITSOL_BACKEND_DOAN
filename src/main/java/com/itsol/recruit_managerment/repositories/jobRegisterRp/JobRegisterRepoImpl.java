@@ -50,7 +50,7 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
                 stringBuilder.append(" and js.status_name = :statusName");
                 map.put("statusName", jobRegisterSearchVm.getJobRegisterStatus());
             }
-            if (jobRegisterSearchVm.getApplicationTimeFrom() != null && jobRegisterSearchVm.getApplicationTimeTo() != null) {
+            if (jobRegisterSearchVm.getApplicationTimeFrom() != null && jobRegisterSearchVm.getApplicationTimeTo() != null && !jobRegisterSearchVm.getApplicationTimeFrom().isEmpty() && !jobRegisterSearchVm.getApplicationTimeTo().isEmpty()) {
                 stringBuilder.append(" and jr.application_time between to_date(:applicationTimeFrom, 'yyyy-MM-dd') and to_date(:applicationTimeTo, 'yyyy-MM-dd')");
                 map.put("applicationTimeFrom", jobRegisterSearchVm.getApplicationTimeFrom());
                 map.put("applicationTimeTo", jobRegisterSearchVm.getApplicationTimeTo());

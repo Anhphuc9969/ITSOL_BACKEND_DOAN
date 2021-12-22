@@ -14,7 +14,7 @@ public class JobRegisterSearchVm {
 
     String applicantName;
     String positionName;
-    Integer jobRegisterStatus;
+    String jobRegisterStatus;
     String applicationTimeFrom;
     String applicationTimeTo;
 }
