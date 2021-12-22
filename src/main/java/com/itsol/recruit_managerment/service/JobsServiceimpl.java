@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,22 +30,22 @@ public class JobsServiceimpl {
     }
 
     public ResponseDto getAllJobPage(Integer pageNumber, Integer pageSize) {
-        if (pageSize >= 1 && pageNumber >= 1) {
-            Pageable pageable = PageRequest.of(pageNumber, pageSize);
-            Page<Jobs> jobsPage = jobRepo.findAll(pageable);
-            long totalRecord = jobsPage.getTotalElements();
-            List<Jobs> list = jobsPage.getContent();
-            return new ResponseDto(totalRecord, list);
-        } else {
-            Pageable pageable = PageRequest.of(0, 20);
-            Page<Jobs> jobsPage = jobRepo.findAll(pageable);
-            long totalRecord = jobsPage.getTotalElements();
-            List<Jobs> list = jobsPage.getContent();
-            return new ResponseDto(totalRecord, list);
-        }
+//        if (pageSize >= 1 && pageNumber >= 0) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+        Page<Jobs> jobsPage = jobRepo.findAll(pageable);
+        long totalRecord = jobsPage.getTotalElements();
+        List<Jobs> list = jobsPage.getContent();
+        return new ResponseDto(totalRecord, list);
+//        } else {
+//            Pageable pageable = PageRequest.of(0, 20);
+//            Page<Jobs> jobsPage = jobRepo.findAll(pageable);
+//            long totalRecord = jobsPage.getTotalElements();
+//            List<Jobs> list = jobsPage.getContent();
+//            return new ResponseDto(totalRecord, list);
+//        }
     }
 
-    public  List<Jobs> getSalaryJobs(){
-        return  jobRepo.getSalaryJob();
+    public List<Jobs> getSalaryJobs() {
+        return jobRepo.getSalaryJob();
     }
 }
