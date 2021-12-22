@@ -2,6 +2,7 @@ package com.itsol.recruit_managerment.controller;
 
 import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.Jobs;
+import com.itsol.recruit_managerment.service.JobsService;
 import com.itsol.recruit_managerment.service.JobsServiceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ public class JobsController {
 
 
 
+
+
     @GetMapping("/getJob/{id}")
     @CrossOrigin
     public Jobs getJobs(@PathVariable("id") Long id) {
@@ -31,6 +34,12 @@ public class JobsController {
     public ResponseEntity<List<Jobs>> getJobs() {
         return new ResponseEntity<List<Jobs>>(jobsServiceimpl.getAllJob(), HttpStatus.OK);
     }
+    @GetMapping("/getalljob")
+    @CrossOrigin
+    public ResponseEntity<List<Jobs>> getJobss()  {
+        return new ResponseEntity<List<Jobs>>(jobsServiceimpl.getJobTable(), HttpStatus.OK);
+    }
+
 
     @GetMapping("/getAllPage")
     @CrossOrigin

@@ -28,6 +28,11 @@ public class JobsServiceimpl {
         return list;
     }
 
+    public List<Jobs> getJobTable() {
+        List<Jobs> list = jobRepo.getJobTable();
+        return list;
+    }
+
     public ResponseDto getAllJobPage(Integer pageNumber, Integer pageSize) {
         if (pageSize >= 1 && pageNumber >= 1) {
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
