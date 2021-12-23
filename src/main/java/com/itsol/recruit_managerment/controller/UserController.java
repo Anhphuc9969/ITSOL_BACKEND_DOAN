@@ -15,14 +15,17 @@ import com.itsol.recruit_managerment.vm.FogotPasswordVM;
 import com.itsol.recruit_managerment.vm.UserVM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
@@ -156,5 +159,21 @@ public class UserController {
     @PutMapping("/fogotpass")
     public ResponseEntity<String> fogotPassword(@RequestBody FogotPasswordVM fogotPasswordVM) {
         return (ResponseEntity<String>) userService.sendFogotPasswordMail(fogotPasswordVM.getEmail());
+    }
+
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<byte[]> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id) {
+        try {
+            User user = userService.store(file, id);
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + user.getAvatarName() + "\"").body(user.getAvatar());
+
+        } catch (IOException e) {
+            return null;
+        }
+    }
+    @GetMapping("file/{id}")
+    public  ResponseEntity<byte[]> getFile(@PathVariable Long id){
+        User user = userService.getFile(id);
+        return  ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + user.getAvatarName() + "\"").body(user.getAvatar());
     }
 }

@@ -26,8 +26,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -350,5 +352,17 @@ public class UserServiceimpl implements UserService {
         } catch (Exception e) {
             return CommonConst.ERROR;
         }
+    }
+    @Override
+    public  User store(MultipartFile file, Long id) throws IOException{
+        String fileName  = StringUtils.cleanPath(file.getOriginalFilename());
+        User user = userRepo.getUserById(id);
+        user.setAvatar(file.getBytes());
+        user.setAvatarName(fileName);
+        return userRepo.save(user);
+    }
+    @Override
+    public  User getFile(Long id){
+        return  userRepo.findById(id).get();
     }
 }

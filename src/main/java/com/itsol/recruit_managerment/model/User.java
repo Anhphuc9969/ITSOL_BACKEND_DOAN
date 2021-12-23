@@ -31,7 +31,10 @@ public class User implements Serializable {
     @Column(name = "FULL_NAME")
     String fullName;
     @Column(name = "AVATAR")
-    String avatar;
+    @Lob
+    byte[] avatar;
+    @Column(name = "AVATAR_NAME")
+    String avatarName;
     @Column(name = "EMAIL")
     String email;
 

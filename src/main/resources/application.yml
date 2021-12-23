@@ -1,9 +1,13 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:Anhphuc9969
-    username: ITSOLGROUP
+    url: jdbc:oracle:thin:@localhost:1521:sa
+    username: DMM
     password: 123456
     driver-class-name: oracle.jdbc.driver.OracleDriver
+    http:
+      multipart:
+        max-file-size: 256KB
+        max-request-size: 256KB
   data:
     rest:
       base-path: api
@@ -37,5 +41,5 @@ server:
 
 application:
   active-account:
-    active-url: "http://localhost:8080/active/"
+    active-url: "http://localhost:8001/active/"
 

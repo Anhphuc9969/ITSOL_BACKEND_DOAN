@@ -8,7 +8,9 @@ import com.itsol.recruit_managerment.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,4 +56,7 @@ public interface UserService extends UserDetailsService {
 
     Page<User> getFullnameList(Pageable pageable, String userName, String fullName, String phoneNumber, String email);
 
+    User store(MultipartFile file, Long id) throws IOException;
+
+    User getFile(Long id);
 }
