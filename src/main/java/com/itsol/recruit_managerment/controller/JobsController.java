@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.controller;
 
+import com.itsol.recruit_managerment.dto.JobDTO;
 import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.service.JobsService;
@@ -54,7 +55,7 @@ public class JobsController {
     @GetMapping("/getalljob")
     @CrossOrigin
     public ResponseEntity<List<Jobs>> getJobss()  {
-        return new ResponseEntity<List<Jobs>>(jobsServiceimpl.getJobTable(), HttpStatus.OK);
+        return new ResponseEntity<>(jobsServiceimpl.getAllJobTable(), HttpStatus.OK);
     }
 
 

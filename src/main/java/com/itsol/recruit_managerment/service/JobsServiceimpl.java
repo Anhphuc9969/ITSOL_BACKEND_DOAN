@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.service;
 
+import com.itsol.recruit_managerment.dto.JobDTO;
 import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.repositories.JobRepo;
@@ -32,7 +33,7 @@ public class JobsServiceimpl {
         return list;
     }
 
-    public List<Jobs> getJobTable() {
+    public List<Jobs> getAllJobTable() {
         List<Jobs> list = jobRepo.getJobTable();
         return list;
     }
