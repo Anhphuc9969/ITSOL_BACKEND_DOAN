@@ -5,6 +5,7 @@ import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.service.JobsService;
 import com.itsol.recruit_managerment.service.JobsServiceimpl;
+import com.itsol.recruit_managerment.vm.JobSearchVM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -67,12 +68,6 @@ public class JobsController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/getSalary")
-    @CrossOrigin
-    public ResponseEntity<List<Jobs>> getSalary() {
-        return new ResponseEntity<List<Jobs>>(jobsServiceimpl.getSalaryJobs(), HttpStatus.OK);
-    }
-
     @PostMapping("/file/upload")
 //    @CrossOrigin
     public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles) throws IOException {
@@ -100,5 +95,11 @@ public class JobsController {
                 .headers(httpHeaders).body(resource);
     }
 
+
+    @PostMapping("/search")
+    @CrossOrigin
+    public List<Jobs> search(@RequestBody JobSearchVM jobSearchVM) {
+        return jobsServiceimpl.search(jobSearchVM);
+    }
 
 }
