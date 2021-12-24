@@ -5,13 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ResponseDto<T> {
-
+@NoArgsConstructor
+public class ResponseDTO<T>{
     long totalRecord;
     List<T> data;
-
 }
