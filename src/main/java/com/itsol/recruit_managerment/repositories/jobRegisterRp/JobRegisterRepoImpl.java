@@ -46,7 +46,7 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
                 stringBuilder.append(" and j.job_position = :jobPosition");
                 map.put("jobPosition", jobRegisterSearchVm.getPositionName());
             }
-            if (jobRegisterSearchVm.getJobRegisterStatus() != null) {
+            if (jobRegisterSearchVm.getJobRegisterStatus() != null && !jobRegisterSearchVm.getJobRegisterStatus().isEmpty()) {
                 stringBuilder.append(" and js.status_name = :statusName");
                 map.put("statusName", jobRegisterSearchVm.getJobRegisterStatus());
             }
