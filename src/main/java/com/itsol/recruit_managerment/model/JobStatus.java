@@ -21,7 +21,7 @@ public class JobStatus implements Serializable {
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "JOB_STATUS_SEQ")
     @SequenceGenerator(name = "JOB_STATUS_SEQ", sequenceName = "JOB_STATUS_SEQ", allocationSize = 1, initialValue = 1)
-    int id;
+    Long id;
 
     @Column(name = "status_name", nullable = false)
     String statusName;

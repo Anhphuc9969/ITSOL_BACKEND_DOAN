@@ -21,7 +21,7 @@ public class LevelRank implements Serializable {
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LEVEL_RANK_SEQ")
     @SequenceGenerator(name = "LEVEL_RANK_SEQ", sequenceName = "LEVEL_RANK_SEQ", allocationSize = 1, initialValue = 1)
-    int id;
+    Long id;
 
 //    @OneToOne(targetEntity = Jobs.class, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "jobs_id", nullable = false)

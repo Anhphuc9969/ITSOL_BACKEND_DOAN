@@ -21,7 +21,7 @@ public class MethodWork implements Serializable {
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "METHOD_WORK_SEQ")
     @SequenceGenerator(name = "METHOD_WORK_SEQ", sequenceName = "METHOD_WORK_SEQ", allocationSize = 1, initialValue = 1)
-    int id;
+    Long id;
 
 //    @OneToOne(targetEntity = Jobs.class, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "jobs_id", nullable = false)
