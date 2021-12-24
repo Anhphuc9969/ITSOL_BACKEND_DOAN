@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.service;
 
+import com.itsol.recruit_managerment.dto.JobRegisterDTO;
 import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
@@ -11,6 +12,8 @@ public interface JobRegisterService {
 
     List<JobsRegister> search(JobRegisterSearchVm jobRegisterSearchVm);
 
-    JobsRegister getJobsRegister(int id);
+    JobsRegister getJobsRegister(int  id);
+
+    Boolean updateJobsRegister(JobRegisterDTO jobRegisterDTO);
 
 }
