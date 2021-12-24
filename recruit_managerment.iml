@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+=======
+<module version="4">
+>>>>>>> 47209d974f99397d033f206eb08904f9dd9c8a15
   <component name="FacetManager">
     <facet type="web" name="Web">
       <configuration>
@@ -16,9 +20,13 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
+<<<<<<< HEAD
         <datasource-mapping>
           <factory-entry name="entityManagerFactory" />
         </datasource-mapping>
+=======
+        <datasource-mapping />
+>>>>>>> 47209d974f99397d033f206eb08904f9dd9c8a15
         <naming-strategy-map />
       </configuration>
     </facet>
@@ -26,6 +34,7 @@
       <configuration />
     </facet>
   </component>
+<<<<<<< HEAD
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -147,4 +156,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:5.5.3" level="project" />
     <orderEntry type="library" name="Maven: com.oracle.database.nls:orai18n:21.3.0.0" level="project" />
   </component>
+=======
+>>>>>>> 47209d974f99397d033f206eb08904f9dd9c8a15
 </module>
