@@ -14,7 +14,6 @@ public interface JobRegisterService {
 
     JobsRegister getJobsRegister(int  id);
 
-    Boolean updateJobsRegister(JobRegisterDTO jobRegisterDTO);
+    JobsRegister updateJobsRegister(JobRegisterDTO jobRegisterDTO);
 
-    JobsRegister updateStatusName(JobsRegister jobsRegister);
 }

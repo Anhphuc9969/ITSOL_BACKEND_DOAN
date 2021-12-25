@@ -34,7 +34,7 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
             StringBuilder stringBuilder = new StringBuilder();
             Map<String, Object> map = new HashMap<>();
             stringBuilder.append("select * from jobs_register jr, users u, job_register_status js, jobs j, profiles p\n");
-            stringBuilder.append(" WHERE jr.user_id = u.id and jr.profiles_id = p.id and jr.job_status_id = js.id and jr.jobs_id = j.id");
+            stringBuilder.append(" WHERE jr.user_id = u.id and jr.profiles_id = p.id and jr.job_register_status_id = js.id and jr.jobs_id = j.id");
             if (jobRegisterSearchVm.getApplicantName() != null && !jobRegisterSearchVm.getApplicantName().isEmpty()) {
                 stringBuilder.append(" and u.full_name = :fullName");
                 map.put("fullName", jobRegisterSearchVm.getApplicantName());
@@ -73,7 +73,7 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
             dto.setJobs(jobRepo.findById(job.getId()).get());
 
             JobRegisterStatus jobRegisterStatus = new JobRegisterStatus();
-            jobRegisterStatus.setId(rs.getLong("job_register_status_id"));
+            jobRegisterStatus.setId(rs.getInt("job_register_status_id"));
             dto.setJobRegisterStatus(jobRegisterStatusRepo.findById(jobRegisterStatus.getId()).get());
 
             Profiles profiles = new Profiles();

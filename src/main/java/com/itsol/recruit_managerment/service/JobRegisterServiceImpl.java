@@ -2,7 +2,9 @@ package com.itsol.recruit_managerment.service;
 
 import com.itsol.recruit_managerment.dto.JobRegisterDTO;
 import com.itsol.recruit_managerment.dto.ResponseDTO;
+import com.itsol.recruit_managerment.model.JobRegisterStatus;
 import com.itsol.recruit_managerment.model.JobsRegister;
+import com.itsol.recruit_managerment.repositories.JobRegisterStatusRepo;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobRegisterRepo;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobsRegisterRepositoryJpa;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
@@ -23,6 +25,9 @@ public class JobRegisterServiceImpl implements JobRegisterService {
 
     @Autowired
     JobRegisterRepo jobRegisterRepo;
+
+    @Autowired
+    JobRegisterStatusRepo jobRegisterStatusRepo;
 
     public ResponseDTO<JobsRegister> getAllJobsRegister(Integer pageNumber, Integer pageSite) {
         Pageable pageable = PageRequest.of(pageNumber, pageSite, Sort.by(Sort.Direction.ASC, "id"));
@@ -45,45 +50,11 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     }
 
     @Override
-    public Boolean updateJobsRegister(JobRegisterDTO jobRegisterDTO) {
-        try{
+    public JobsRegister updateJobsRegister(JobRegisterDTO jobRegisterDTO) {
             JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
+            JobRegisterStatus jobRegisterStatus = jobRegisterStatusRepo.getById( jobRegisterDTO.getJobRegisterStatusId());
+            jobsRegister.setJobRegisterStatus(jobRegisterStatus);
             jobsRegisterRepositoryJpa.save(jobsRegister);
-            System.out.println(jobsRegister);
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return false;
+            return jobsRegister;
     }
-
-    @Override
-    public JobsRegister updateStatusName(JobsRegister jobsRegister) {
-        return jobsRegisterRepositoryJpa.save(jobsRegister);
-    }
-
-//    public JobsRegister convert(JobRegisterDTO jobRegisterDTO){
-//        try{
-//            JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
-//            System.out.println(jobsRegister);
-//            if (jobRegisterDTO.getJobRegisterStatusId() != '' && !jobRegisterDTO.getApplicantName().getFullName().isEmpty()){
-//                jobsRegister.getUser().setFullName(jobRegisterDTO.getApplicantName().getFullName());
-//            }
-////            if (jobRegisterDTO.getPositionName().getJobPosition()!= null && !jobRegisterDTO.getPositionName().getJobPosition().isEmpty()){
-////                jobsRegister.getJobs().setJobPosition(jobRegisterDTO.getPositionName().getJobPosition());
-////            }
-////            if (jobRegisterDTO.getJobRegisterStatus().getStatusName() != null && !jobRegisterDTO.getJobRegisterStatus().getStatusName().isEmpty()){
-////                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus().getStatusName());
-////            }
-////            if (jobRegisterDTO.getReason() != null && !jobRegisterDTO.getReason().isEmpty()){
-////                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus().getStatusName());
-////            }
-//            return jobsRegister;
-//        } catch (Exception e) {
-//            e.getMessage();
-//        }
-//        return null;
-//    }
-
-
 }

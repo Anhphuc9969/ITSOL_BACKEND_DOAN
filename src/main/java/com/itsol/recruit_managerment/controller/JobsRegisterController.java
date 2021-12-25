@@ -43,12 +43,8 @@ public class JobsRegisterController {
 
     @PutMapping("/update")
     @CrossOrigin
-    public ResponseEntity<String> updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
-        Boolean flag = jobRegisterImpl.updateJobsRegister(jobRegisterDTO) ;
-        if (flag){
-            return ResponseEntity.ok().body("Update thành công");
-        }
-        return ResponseEntity.ok().body("Update thất bại");
+    public JobsRegister updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
+        return jobRegisterImpl.updateJobsRegister(jobRegisterDTO) ;
     }
 
 
