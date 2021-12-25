@@ -1,7 +1,7 @@
 package com.itsol.recruit_managerment.controller;
 
 import com.itsol.recruit_managerment.dto.JobRegisterDTO;
-import com.itsol.recruit_managerment.dto.ResponseDto;
+import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.service.JobRegisterServiceImpl;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
@@ -23,8 +23,8 @@ public class JobsRegisterController {
 
     @GetMapping("/getAll")
     @CrossOrigin
-    public ResponseEntity<ResponseDto<JobsRegister>> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
-        ResponseDto<JobsRegister> response = jobRegisterImpl.getAllJobsRegister(pageNumber, pageSize);
+    public ResponseEntity<ResponseDTO<JobsRegister>> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
+        ResponseDTO<JobsRegister> response = jobRegisterImpl.getAllJobsRegister(pageNumber, pageSize);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -50,24 +50,7 @@ public class JobsRegisterController {
         }
         return ResponseEntity.ok().body("Update thất bại");
     }
-    
-//    @GetMapping("/getByName/{fullName}")
-//    @CrossOrigin
-//    public List<JobsRegister> getByName(@PathVariable("fullName") String fullName){
-//        return jobRegisterImpl.searchName(fullName);
-//    }
 
-//    @GetMapping("/getByDate/{time}")
-//    @CrossOrigin
-//    public List<JobsRegister> getByTime(@PathVariable("time") String time){
-//        return jobRegisterImpl.searchDate(time);
-//    }
-
-//    @GetMapping("/getByVacancies/{vacancies}")
-//    @CrossOrigin
-//    public List<JobsRegister> getByVacancies(@PathVariable("vacancies") String vacancies){
-//        return jobRegisterImpl.searchVacancies(vacancies);
-//    }
 
 
 }

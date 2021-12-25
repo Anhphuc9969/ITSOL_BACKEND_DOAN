@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.service;
 
-import com.itsol.recruit_managerment.dto.ResponseDto;
+import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.repositories.JobRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +28,19 @@ public class JobsServiceimpl {
         return list;
     }
 
-    public ResponseDto getAllJobPage(Integer pageNumber, Integer pageSize) {
+    public ResponseDTO getAllJobPage(Integer pageNumber, Integer pageSize) {
         if (pageSize >= 1 && pageNumber >= 1) {
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
             Page<Jobs> jobsPage = jobRepo.findAll(pageable);
             long totalRecord = jobsPage.getTotalElements();
             List<Jobs> list = jobsPage.getContent();
-            return new ResponseDto(totalRecord, list);
+            return new ResponseDTO(totalRecord, list);
         } else {
             Pageable pageable = PageRequest.of(0, 20);
             Page<Jobs> jobsPage = jobRepo.findAll(pageable);
             long totalRecord = jobsPage.getTotalElements();
             List<Jobs> list = jobsPage.getContent();
-            return new ResponseDto(totalRecord, list);
+            return new ResponseDTO(totalRecord, list);
         }
     }
 

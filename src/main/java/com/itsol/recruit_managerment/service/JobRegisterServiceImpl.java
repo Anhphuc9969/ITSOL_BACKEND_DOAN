@@ -1,8 +1,7 @@
 package com.itsol.recruit_managerment.service;
 
-import com.itsol.recruit_managerment.GennericResponse.DateTimeConstant;
 import com.itsol.recruit_managerment.dto.JobRegisterDTO;
-import com.itsol.recruit_managerment.dto.ResponseDto;
+import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobRegisterRepo;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobsRegisterRepositoryJpa;
@@ -14,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -27,13 +24,13 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     @Autowired
     JobRegisterRepo jobRegisterRepo;
 
-    public ResponseDto<JobsRegister> getAllJobsRegister(Integer pageNumber, Integer pageSite) {
+    public ResponseDTO<JobsRegister> getAllJobsRegister(Integer pageNumber, Integer pageSite) {
         Pageable pageable = PageRequest.of(pageNumber, pageSite, Sort.by(Sort.Direction.ASC, "id"));
 
         Page<JobsRegister> jobPage = jobsRegisterRepositoryJpa.findAll(pageable);
         long totalRecord = jobPage.getTotalElements();
         List<JobsRegister> jobsRegisterList = jobPage.getContent();
-        return new ResponseDto(totalRecord, jobsRegisterList);
+        return new ResponseDTO(totalRecord, jobsRegisterList);
     }
 
     @Override
@@ -50,8 +47,9 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     @Override
     public Boolean updateJobsRegister(JobRegisterDTO jobRegisterDTO) {
         try{
-            JobsRegister jobRegister = convert(jobRegisterDTO);
-            jobsRegisterRepositoryJpa.save(jobRegister);
+            JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
+            jobsRegisterRepositoryJpa.save(jobsRegister);
+            System.out.println(jobsRegister);
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -59,36 +57,33 @@ public class JobRegisterServiceImpl implements JobRegisterService {
         return false;
     }
 
-    public JobsRegister convert(JobRegisterDTO jobRegisterDTO){
-        try{
-            JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(Integer.parseInt(jobRegisterDTO.getId()));
-            System.out.println(jobsRegister);
-            if (jobRegisterDTO.getApplicantName().isEmpty()){
-                jobsRegister.getUser().setFullName(jobRegisterDTO.getApplicantName());
-            }
-            if (jobRegisterDTO.getPositionName().isEmpty()){
-                jobsRegister.getJobs().setJobPosition(jobRegisterDTO.getPositionName());
-            }
-            if (jobRegisterDTO.getJobRegisterStatus().isEmpty()){
-                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus());
-            }
-            if(jobRegisterDTO.getApplicationTime().isEmpty()){
-                SimpleDateFormat sdf = new SimpleDateFormat(DateTimeConstant.YYYYMMDD_FOMART);
-                jobsRegister.setApplicationTime(sdf.parse(jobRegisterDTO.getApplicationTime()));
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+    @Override
+    public JobsRegister updateStatusName(JobsRegister jobsRegister) {
+        return jobsRegisterRepositoryJpa.save(jobsRegister);
     }
 
+//    public JobsRegister convert(JobRegisterDTO jobRegisterDTO){
+//        try{
+//            JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
+//            System.out.println(jobsRegister);
+//            if (jobRegisterDTO.getJobRegisterStatusId() != '' && !jobRegisterDTO.getApplicantName().getFullName().isEmpty()){
+//                jobsRegister.getUser().setFullName(jobRegisterDTO.getApplicantName().getFullName());
+//            }
+////            if (jobRegisterDTO.getPositionName().getJobPosition()!= null && !jobRegisterDTO.getPositionName().getJobPosition().isEmpty()){
+////                jobsRegister.getJobs().setJobPosition(jobRegisterDTO.getPositionName().getJobPosition());
+////            }
+////            if (jobRegisterDTO.getJobRegisterStatus().getStatusName() != null && !jobRegisterDTO.getJobRegisterStatus().getStatusName().isEmpty()){
+////                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus().getStatusName());
+////            }
+////            if (jobRegisterDTO.getReason() != null && !jobRegisterDTO.getReason().isEmpty()){
+////                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus().getStatusName());
+////            }
+//            return jobsRegister;
+//        } catch (Exception e) {
+//            e.getMessage();
+//        }
+//        return null;
+//    }
 
 
-//    public List<JobsRegister> searchName(String fullName){
-//       return jobsRegisterRepository.findByFullName(fullName);
-//    }
-//
-//    public List<JobsRegister> searchVacancies(String vacancies){
-//        return jobsRegisterRepository.findByVacancies(vacancies);
-//    }
 }
