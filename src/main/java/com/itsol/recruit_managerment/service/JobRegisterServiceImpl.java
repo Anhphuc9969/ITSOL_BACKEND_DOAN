@@ -5,6 +5,7 @@ import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobRegisterRepo;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobsRegisterRepositoryJpa;
+import com.itsol.recruit_managerment.utils.DataUtil;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -46,12 +51,12 @@ public class JobRegisterServiceImpl implements JobRegisterService {
 
     @Override
     public Boolean updateJobsRegister(JobRegisterDTO jobRegisterDTO) {
-        try{
+        try {
             JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
             jobsRegisterRepositoryJpa.save(jobsRegister);
             System.out.println(jobsRegister);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -60,6 +65,24 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     @Override
     public JobsRegister updateStatusName(JobsRegister jobsRegister) {
         return jobsRegisterRepositoryJpa.save(jobsRegister);
+    }
+
+    @Override
+    public byte[] downloadCv(int applicantId) throws IOException {
+        JobsRegister jobsRegister = jobsRegisterRepositoryJpa.findById(applicantId);
+        if (ObjectUtils.isEmpty(jobsRegister)) {
+            throw new NullPointerException("Could not found applicant");
+        }
+        return Files.readAllBytes(Paths.get(jobsRegister.getCvFile()));
+    }
+
+    @Override
+    public String getCvFileName(String cvFilePath) {
+        if (!DataUtil.isNotNullAndEmptyString(cvFilePath)) {
+            throw new NullPointerException("CV file path is null");
+        }
+        String[] cvFilePaths = cvFilePath.split("/");
+        return cvFilePaths[cvFilePaths.length - 1];
     }
 
 //    public JobsRegister convert(JobRegisterDTO jobRegisterDTO){

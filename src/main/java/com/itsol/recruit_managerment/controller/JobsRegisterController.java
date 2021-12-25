@@ -4,10 +4,12 @@ import com.itsol.recruit_managerment.dto.JobRegisterDTO;
 import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.service.JobRegisterServiceImpl;
+import com.itsol.recruit_managerment.utils.HttpUtil;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,7 +53,18 @@ public class JobsRegisterController {
         return ResponseEntity.ok().body("Update thất bại");
     }
 
-
+    @GetMapping("/cv/download/{applicantId}")
+    @CrossOrigin
+    public ResponseEntity<byte[]> downloadApplicantCv(@PathVariable("applicantId") int applicantId) throws Exception {
+        byte[] cvContent = jobRegisterImpl.downloadCv(applicantId);
+        JobsRegister jobsRegister = jobRegisterImpl.getJobsRegister(applicantId);
+        String mimetype = jobsRegister.getCvMimetype();
+        String cvFileName = jobRegisterImpl.getCvFileName(jobsRegister.getCvFile());
+        if (ObjectUtils.isEmpty(jobsRegister)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(cvContent, HttpUtil.createHeaderForDownloadFile(cvFileName, mimetype), HttpStatus.OK);
+    }
 
 }
 
