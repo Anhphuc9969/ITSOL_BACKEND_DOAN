@@ -2,6 +2,7 @@ package com.itsol.recruit_managerment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "jobs_register")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class JobsRegister implements Serializable {
 
     @Id
@@ -28,25 +30,31 @@ public class JobsRegister implements Serializable {
     Integer id;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     User user;
 
-    @ManyToOne(targetEntity = ProfileStatus.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "profile_status_id", nullable = false)
-    ProfileStatus profileStatus;
+    @OneToOne(targetEntity = Jobs.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "jobs_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    Jobs jobs;
 
-    @Column(name = "vacancies", nullable = false)
-    String vacancies;
+    @ManyToOne(targetEntity = JobRegisterStatus.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "job_register_status_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    JobRegisterStatus jobRegisterStatus;
 
-    @Column(name = "application_time", nullable = false)
+    @OneToOne(targetEntity = Profiles.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "profiles_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    Profiles profiles;
+
+    @Column(name = "application_time")
     @Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     Date applicationTime;
 
-    @Column(name = "status", nullable = false)
-    String status;
-
-    @Column(name = "cv_file", nullable = false)
+    @Column(name = "cv_file")
     String cvFile;
 
     @Column(name = "cv_mimetype")
@@ -55,7 +63,7 @@ public class JobsRegister implements Serializable {
     @Column(name = "reason")
     private String reason;
 
-    @Column(name = "is_delete", nullable = false)
+    @Column(name = "is_delete")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     boolean isDelete;
 }

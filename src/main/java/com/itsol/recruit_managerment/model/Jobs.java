@@ -1,6 +1,7 @@
 package com.itsol.recruit_managerment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(name = "Jobs")
+@Entity(name = "jobs")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,32 +27,38 @@ public class Jobs implements Serializable {
     @NotBlank(message = "fullName không được để trống")
     @ManyToOne(targetEntity = JobStatus.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "job_status_id", nullable = false, referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     JobStatus jobStatus;
 
     @OneToOne(targetEntity = MethodWork.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "method_work_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     MethodWork methodWork;
 
 
     @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "academic_level_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     AcademicLevel academicLevel;
 
 
     @OneToOne(targetEntity = LevelRank.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "level_rank_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     LevelRank levelRank;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "create_id", nullable = false)
 //    @JsonIgnore
     User createId;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "contact_id", nullable = false)
 //    @JsonIgnore
     User contactId;
