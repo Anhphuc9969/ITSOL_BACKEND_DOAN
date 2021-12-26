@@ -10,6 +10,8 @@ import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobsRegisterRepo
 import com.itsol.recruit_managerment.utils.DataUtil;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -71,13 +73,30 @@ public class JobRegisterServiceImpl implements JobRegisterService {
         return null;
     }
 
+//    @Override
+//    public byte[] downloadCv(int applicantId) throws IOException {
+//        JobsRegister jobsRegister = jobsRegisterRepositoryJpa.findById(applicantId);
+//        if (ObjectUtils.isEmpty(jobsRegister)) {
+//            throw new NullPointerException("Could not found applicant");
+//        }
+//        return Files.readAllBytes(Paths.get(jobsRegister.getCvFile()));
+//    }
+
     @Override
-    public byte[] downloadCv(int applicantId) throws IOException {
+    public Resource downloadCv(int applicantId) throws IOException {
         JobsRegister jobsRegister = jobsRegisterRepositoryJpa.findById(applicantId);
         if (ObjectUtils.isEmpty(jobsRegister)) {
             throw new NullPointerException("Could not found applicant");
         }
-        return Files.readAllBytes(Paths.get(jobsRegister.getCvFile()));
+        String cvFilePath = jobsRegister.getCvFile();
+        Path file = Paths.get(cvFilePath);
+        Resource resource = new UrlResource(file.toUri());
+
+        if (!resource.exists() && !resource.isReadable()) {
+            throw new RuntimeException("Could not read the file!");
+        }
+        return resource;
+//        return Files.readAllBytes(Paths.get(jobsRegister.getCvFile()));
     }
 
     @Override
