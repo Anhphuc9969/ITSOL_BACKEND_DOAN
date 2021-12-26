@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.controller;
 
-import com.itsol.recruit_managerment.dto.ResponseDto;
+import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.service.JobRegisterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,8 @@ public class JobsRegisterController {
 
     @GetMapping("/getAll")
     @CrossOrigin
-    public ResponseEntity<ResponseDto> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
-        ResponseDto response = jobRegisterImpl.getAllJobsRegister(pageNumber, pageSize);
+    public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
+        ResponseDTO response = jobRegisterImpl.getAllJobsRegister(pageNumber, pageSize);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

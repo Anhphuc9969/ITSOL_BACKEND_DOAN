@@ -1,6 +1,6 @@
 package com.itsol.recruit_managerment.controller;
 
-import com.itsol.recruit_managerment.dto.ResponseDto;
+import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.service.JobsServiceimpl;
 import com.itsol.recruit_managerment.utils.FileUtil;
@@ -10,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,9 +56,9 @@ public class JobsController {
 
     @GetMapping("/getAllPage")
     @CrossOrigin
-    public ResponseEntity<ResponseDto> getAll(@RequestParam("pageNumber") int pageNumber,
+    public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber,
                                               @RequestParam("pageSize") int pageSize) {
-        ResponseDto responseDTO = jobsServiceimpl.getAllJobPage(pageNumber, pageSize);
+        ResponseDTO responseDTO = jobsServiceimpl.getAllJobPage(pageNumber, pageSize);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
