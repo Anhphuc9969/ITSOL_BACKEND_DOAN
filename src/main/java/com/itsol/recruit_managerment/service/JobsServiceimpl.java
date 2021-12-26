@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class JobsServiceimpl implements JobsService {
 
-//    @Autowired
+    @Autowired
     JobRepo jobRepo;
 
     @Autowired

@@ -49,6 +49,12 @@ public class JobsRegister implements Serializable {
     @Column(name = "cv_file", nullable = false)
     String cvFile;
 
+    @Column(name = "cv_mimetype")
+    String cvMimetype;
+
+    @Column(name = "reason")
+    private String reason;
+
     @Column(name = "is_delete", nullable = false)
     @Type(type = "org.hibernate.type.NumericBooleanType")
     boolean isDelete;

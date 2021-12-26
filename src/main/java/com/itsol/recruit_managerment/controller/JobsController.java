@@ -3,14 +3,18 @@ package com.itsol.recruit_managerment.controller;
 import com.itsol.recruit_managerment.dto.ResponseDto;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.service.JobsServiceimpl;
+import com.itsol.recruit_managerment.utils.FileUtil;
 import com.itsol.recruit_managerment.vm.JobSearchVM;
+import net.sf.jmimemagic.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -62,14 +66,25 @@ public class JobsController {
 
     @PostMapping("/file/upload")
 //    @CrossOrigin
-    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles) throws IOException {
+    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles) throws IOException, MagicMatchNotFoundException, MagicException, MagicParseException {
         List<String> filenames = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
+
             String filename = StringUtils.cleanPath(file.getOriginalFilename());
             Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
             copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
             filenames.add(filename);
+            String mineType= Magic.getMagicMatch(filename.getBytes()).getMimeType();
+            if (mineType.equalsIgnoreCase(FileUtil.IMAGE_PDF)){;
+//                MagicMatch match = Magic.getMagicMatch(file, false);
+//                assertEquals(match.getMimeType(), "image/png");
+            }
+
+
+
+
         }
+
         return ResponseEntity.ok().body(filenames);
     }
 
@@ -86,6 +101,9 @@ public class JobsController {
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(filePath)))
                 .headers(httpHeaders).body(resource);
     }
+
+
+
 
 
     @PostMapping("/search")
