@@ -62,10 +62,9 @@ public class JobRegisterServiceImpl implements JobRegisterService {
         try {
             JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
             JobRegisterStatus jobRegisterStatus = jobRegisterStatusRepo.getById( jobRegisterDTO.getJobRegisterStatusId());
+            jobsRegister.setReason(jobRegisterDTO.getReason());
             jobsRegister.setJobRegisterStatus(jobRegisterStatus);
             jobsRegisterRepositoryJpa.save(jobsRegister);
-
-            System.out.println(jobsRegister);
             return jobsRegister;
         } catch (Exception e) {
             e.printStackTrace();
