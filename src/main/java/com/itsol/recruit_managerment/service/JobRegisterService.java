@@ -5,6 +5,7 @@ import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface JobRegisterService {
@@ -12,8 +13,12 @@ public interface JobRegisterService {
 
     List<JobsRegister> search(JobRegisterSearchVm jobRegisterSearchVm);
 
-    JobsRegister getJobsRegister(int  id);
+    JobsRegister getJobsRegister(int id);
 
     JobsRegister updateJobsRegister(JobRegisterDTO jobRegisterDTO);
+
+    byte[] downloadCv(int applicantId) throws IOException;
+
+    String getCvFileName(String cvFilePath);
 
 }

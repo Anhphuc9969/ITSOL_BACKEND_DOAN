@@ -57,6 +57,9 @@ public class JobsRegister implements Serializable {
     @Column(name = "cv_file")
     String cvFile;
 
+    @Column(name = "cv_mimetype")
+    String cvMimetype;
+
     @Column(name = "reason")
     private String reason;
 

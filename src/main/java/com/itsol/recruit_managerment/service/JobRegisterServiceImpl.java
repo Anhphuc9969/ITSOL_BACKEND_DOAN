@@ -7,6 +7,7 @@ import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.repositories.JobRegisterStatusRepo;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobRegisterRepo;
 import com.itsol.recruit_managerment.repositories.jobRegisterRp.JobsRegisterRepositoryJpa;
+import com.itsol.recruit_managerment.utils.DataUtil;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -50,11 +55,62 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     }
 
     @Override
+
     public JobsRegister updateJobsRegister(JobRegisterDTO jobRegisterDTO) {
+        try {
             JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
             JobRegisterStatus jobRegisterStatus = jobRegisterStatusRepo.getById( jobRegisterDTO.getJobRegisterStatusId());
             jobsRegister.setJobRegisterStatus(jobRegisterStatus);
             jobsRegisterRepositoryJpa.save(jobsRegister);
+
+            System.out.println(jobsRegister);
             return jobsRegister;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
+    @Override
+    public byte[] downloadCv(int applicantId) throws IOException {
+        JobsRegister jobsRegister = jobsRegisterRepositoryJpa.findById(applicantId);
+        if (ObjectUtils.isEmpty(jobsRegister)) {
+            throw new NullPointerException("Could not found applicant");
+        }
+        return Files.readAllBytes(Paths.get(jobsRegister.getCvFile()));
+    }
+
+    @Override
+    public String getCvFileName(String cvFilePath) {
+        if (!DataUtil.isNotNullAndEmptyString(cvFilePath)) {
+            throw new NullPointerException("CV file path is null");
+        }
+        String[] cvFilePaths = cvFilePath.split("/");
+        return cvFilePaths[cvFilePaths.length - 1];
+    }
+
+//    public JobsRegister convert(JobRegisterDTO jobRegisterDTO){
+//        try{
+//            JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
+//            System.out.println(jobsRegister);
+//            if (jobRegisterDTO.getJobRegisterStatusId() != '' && !jobRegisterDTO.getApplicantName().getFullName().isEmpty()){
+//                jobsRegister.getUser().setFullName(jobRegisterDTO.getApplicantName().getFullName());
+//            }
+////            if (jobRegisterDTO.getPositionName().getJobPosition()!= null && !jobRegisterDTO.getPositionName().getJobPosition().isEmpty()){
+////                jobsRegister.getJobs().setJobPosition(jobRegisterDTO.getPositionName().getJobPosition());
+////            }
+////            if (jobRegisterDTO.getJobRegisterStatus().getStatusName() != null && !jobRegisterDTO.getJobRegisterStatus().getStatusName().isEmpty()){
+////                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus().getStatusName());
+////            }
+////            if (jobRegisterDTO.getReason() != null && !jobRegisterDTO.getReason().isEmpty()){
+////                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus().getStatusName());
+////            }
+//            return jobsRegister;
+//        } catch (Exception e) {
+//            e.getMessage();
+//        }
+//        return null;
+//    }
+
+
 }
