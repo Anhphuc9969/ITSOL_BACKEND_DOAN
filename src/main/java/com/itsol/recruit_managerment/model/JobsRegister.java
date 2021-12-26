@@ -3,10 +3,7 @@ package com.itsol.recruit_managerment.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Type;
 
@@ -14,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -62,6 +60,9 @@ public class JobsRegister implements Serializable {
 
     @Column(name = "reason")
     private String reason;
+
+    @Column(name = "short_description")
+    private String shortDescription;
 
     @Column(name = "is_delete")
     @Type(type = "org.hibernate.type.NumericBooleanType")

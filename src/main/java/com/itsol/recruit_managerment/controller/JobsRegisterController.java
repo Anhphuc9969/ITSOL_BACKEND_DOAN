@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,8 +49,8 @@ public class JobsRegisterController {
 
     @PutMapping("/update")
     @CrossOrigin
-    public JobsRegister updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
-        return jobRegisterImpl.updateJobsRegister(jobRegisterDTO) ;
+    public JobsRegister updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO) {
+        return jobRegisterImpl.updateJobsRegister(jobRegisterDTO);
     }
 
 //    @GetMapping("/cv/download/{applicantId}")
@@ -81,10 +82,13 @@ public class JobsRegisterController {
 
     @PostMapping
     @CrossOrigin
-    public ResponseEntity<?> applyCv(@RequestPart int userId, @RequestPart MultipartFile cvFile,
-                                     @RequestPart int jobId, @RequestPart String shortDescription) throws Exception {
-//        jobRegisterImpl.apply(userId, jobId, cvFile, shortDescription);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> applyCv(@RequestPart String userId, @RequestPart MultipartFile cvFile,
+                                     @RequestPart String jobId, @RequestPart String shortDescription) throws Exception {
+        if (ObjectUtils.isEmpty(cvFile) || cvFile.isEmpty()) {
+            return new ResponseEntity<>("CV is required", HttpStatus.BAD_REQUEST);
+        }
+        boolean result = jobRegisterImpl.apply(userId, jobId, cvFile, shortDescription);
+        return new ResponseEntity<>(result, result ? HttpStatus.CREATED : HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
