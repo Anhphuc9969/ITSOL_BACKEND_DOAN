@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/{$spring.data.rest.base-path}/jobsRegister")
@@ -28,6 +29,15 @@ public class JobsRegisterController {
     public JobsRegister getById(@PathVariable("id") int id) {
         return jobRegisterImpl.getJobsRegister(id);
     }
+
+    @PostMapping
+    @CrossOrigin
+    public ResponseEntity<?> applyCv(@RequestPart int userId, @RequestPart MultipartFile cvFile,
+                                     @RequestPart int jobId, @RequestPart String shortDescription) throws Exception {
+//        jobRegisterImpl.apply(userId, jobId, cvFile, shortDescription);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }
 

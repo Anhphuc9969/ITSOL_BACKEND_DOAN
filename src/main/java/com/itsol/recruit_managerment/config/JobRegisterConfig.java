@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountActivationConfig {
+public class JobRegisterConfig {
 
-    @Value("${application.active-account.active-url}")
-    String activateUrl;
+    @Value("${application.applicant-cv-folder}")
+    String cvFolder;
 
 }
