@@ -67,22 +67,11 @@ public class JobsController {
     public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles) throws IOException, MagicMatchNotFoundException, MagicException, MagicParseException {
         List<String> filenames = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
-
             String filename = StringUtils.cleanPath(file.getOriginalFilename());
             Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
             copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
             filenames.add(filename);
-            String mineType= Magic.getMagicMatch(filename.getBytes()).getMimeType();
-            if (mineType.equalsIgnoreCase(FileUtil.IMAGE_PDF)){;
-//                MagicMatch match = Magic.getMagicMatch(file, false);
-//                assertEquals(match.getMimeType(), "image/png");
-            }
-
-
-
-
         }
-
         return ResponseEntity.ok().body(filenames);
     }
 
