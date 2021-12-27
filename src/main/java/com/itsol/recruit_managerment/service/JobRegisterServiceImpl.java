@@ -95,7 +95,6 @@ public class JobRegisterServiceImpl implements JobRegisterService {
             throw new RuntimeException("Could not read the file!");
         }
         return resource;
-//        return Files.readAllBytes(Paths.get(jobsRegister.getCvFile()));
     }
 
     @Override
@@ -106,29 +105,5 @@ public class JobRegisterServiceImpl implements JobRegisterService {
         String[] cvFilePaths = cvFilePath.split("/");
         return cvFilePaths[cvFilePaths.length - 1];
     }
-
-//    public JobsRegister convert(JobRegisterDTO jobRegisterDTO){
-//        try{
-//            JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
-//            System.out.println(jobsRegister);
-//            if (jobRegisterDTO.getJobRegisterStatusId() != '' && !jobRegisterDTO.getApplicantName().getFullName().isEmpty()){
-//                jobsRegister.getUser().setFullName(jobRegisterDTO.getApplicantName().getFullName());
-//            }
-////            if (jobRegisterDTO.getPositionName().getJobPosition()!= null && !jobRegisterDTO.getPositionName().getJobPosition().isEmpty()){
-////                jobsRegister.getJobs().setJobPosition(jobRegisterDTO.getPositionName().getJobPosition());
-////            }
-////            if (jobRegisterDTO.getJobRegisterStatus().getStatusName() != null && !jobRegisterDTO.getJobRegisterStatus().getStatusName().isEmpty()){
-////                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus().getStatusName());
-////            }
-////            if (jobRegisterDTO.getReason() != null && !jobRegisterDTO.getReason().isEmpty()){
-////                jobsRegister.getJobStatus().setStatusName(jobRegisterDTO.getJobRegisterStatus().getStatusName());
-////            }
-//            return jobsRegister;
-//        } catch (Exception e) {
-//            e.getMessage();
-//        }
-//        return null;
-//    }
-
 
 }

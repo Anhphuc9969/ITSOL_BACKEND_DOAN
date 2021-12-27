@@ -9,6 +9,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

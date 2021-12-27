@@ -14,9 +14,5 @@ public interface OTPRepo extends JpaRepository<OTP, Long> {
     @Query("FROM OTP o WHERE o.user = :user")
     Optional<OTP> findByUser(@Param("user") User user);
 
-//    @Modifying
-//    @Query("UPDATE OTP o SET o.code = :code, o.issueAt = :issueAt WHERE o.user = :user")
-//    void updateOTP(@Param("code") String otpCode,
-//                   @Param("issueAt") Long issueAt,
-//                   @Param("user") AppUser user);
+
 }

@@ -36,7 +36,7 @@ public class InformationUserController {
     @GetMapping("/getInformationUserById/{id}")
     public ResponseEntity<?> getInformationUserById(@PathVariable("id") Long id){
         try {
-            Profiles profileEntity = profileService.findByID(id);
+            Profiles profileEntity = profileService.findByUserID(id);
 
             User userEntity = userInformationService.findByIDInformation(profileEntity.getUsers().getId());
             AcademicLevel academic_levelEntity = academic_levelService.findById(profileEntity.getAcademicLevel().getId());
@@ -83,7 +83,7 @@ public class InformationUserController {
     public ResponseEntity<?> updateInformationUserById(@PathVariable("id") Long id,@Valid @RequestBody InformationUserDTO form){
         try {
 
-            Profiles profileEntity = profileService.findByID(id);
+            Profiles profileEntity = profileService.findByUserID(id);
 
             User userEntity = userInformationService.findByIDInformation(profileEntity.getUsers().getId());
 

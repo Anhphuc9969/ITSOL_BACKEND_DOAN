@@ -7,7 +7,9 @@ spring:
   data:
     rest:
       base-path: api
-
+#  batch:
+#    job:
+#      enabled: false
   jpa:
     hibernate:
       ddl-auto: update

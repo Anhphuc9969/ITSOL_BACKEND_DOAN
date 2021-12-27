@@ -48,4 +48,15 @@ public class AcademicLevelImpl implements AcademicLevelService{
         }
 
     }
+
+    @Override
+    public AcademicLevel save(AcademicLevel academicLevel) {
+        try {
+            return academic_levelRepository.save(academicLevel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 }

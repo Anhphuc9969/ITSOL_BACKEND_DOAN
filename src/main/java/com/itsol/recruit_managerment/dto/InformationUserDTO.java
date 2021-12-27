@@ -31,7 +31,7 @@ public class InformationUserDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date birth_day;
 
-//    private String avatar;
+    private String avatar;
 
     private String skill;
 
@@ -92,13 +92,13 @@ public class InformationUserDTO {
         this.birth_day = birth_day;
     }
 
-//    public String getAvatar() {
-//        return avatar;
-//    }
+    public String getAvatar() {
+        return avatar;
+    }
 
-//    public void setAvatar(String avatar) {
-//        this.avatar = avatar;
-//    }
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getSkill() {
         return skill;
