@@ -1,6 +1,7 @@
 package com.itsol.recruit_managerment.repositories.jobRegisterRp;
 
 import com.itsol.recruit_managerment.model.*;
+import com.itsol.recruit_managerment.repositories.*;
 import com.itsol.recruit_managerment.repositories.IUserRespository;
 import com.itsol.recruit_managerment.repositories.JobsRepo;
 import com.itsol.recruit_managerment.repositories.JobStatusRepo;
@@ -27,7 +28,7 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
     JobsRepo jobRepo;
 
     @Autowired
-    JobStatusRepo jobStatusRepo;
+    JobRegisterStatusRepo jobRegisterStatusRepo;
 
     @Autowired
     ProfileRepo profileRepo;
@@ -36,8 +37,8 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
         try {
             StringBuilder stringBuilder = new StringBuilder();
             Map<String, Object> map = new HashMap<>();
-            stringBuilder.append("select * from jobs_register jr, users u, job_status js, jobs j, profiles p\n");
-            stringBuilder.append(" WHERE jr.user_id = u.id and jr.profiles_id = p.id and jr.job_status_id = js.id and jr.jobs_id = j.id");
+            stringBuilder.append("select * from jobs_register jr, users u, job_register_status js, jobs j, profiles p\n");
+            stringBuilder.append(" WHERE jr.user_id = u.id and jr.profiles_id = p.id and jr.job_register_status_id = js.id and jr.jobs_id = j.id");
             if (jobRegisterSearchVm.getApplicantName() != null && !jobRegisterSearchVm.getApplicantName().isEmpty()) {
                 stringBuilder.append(" and u.full_name = :fullName");
                 map.put("fullName", jobRegisterSearchVm.getApplicantName());
@@ -75,16 +76,15 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
             job.setId(rs.getLong("jobs_id"));
             dto.setJobs(jobRepo.findById(job.getId()).get());
 
-            JobStatus jobStatus = new JobStatus();
-            jobStatus.setId(rs.getLong("job_status_id"));
-            dto.setJobStatus(jobStatusRepo.findById(jobStatus.getId()).get());
+            JobRegisterStatus jobRegisterStatus = new JobRegisterStatus();
+            jobRegisterStatus.setId(rs.getInt("job_register_status_id"));
+            dto.setJobRegisterStatus(jobRegisterStatusRepo.findById(jobRegisterStatus.getId()).get());
 
             Profiles profiles = new Profiles();
             profiles.setId(rs.getLong("profiles_id"));
             dto.setProfiles(profileRepo.findById(profiles.getId()).get());
 
             dto.setApplicationTime(rs.getDate("application_time"));
-            dto.setStatus(rs.getString("status"));
             dto.setCvFile(rs.getString("cv_file"));
             dto.setDelete(rs.getBoolean("is_delete"));
             return dto;

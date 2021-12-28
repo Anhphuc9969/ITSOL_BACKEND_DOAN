@@ -24,7 +24,7 @@ public class JobsServiceimpl implements JobsService {
     @Autowired
     JobsRepo jobsRepo;
 
-//    @Autowired
+    @Autowired
     JobRepo jobRepo;
 
     @Autowired
@@ -40,26 +40,21 @@ public class JobsServiceimpl implements JobsService {
         return list;
     }
 
+<<<<<<< HEAD
+=======
 
     public List<Jobs> getAllJobTable() {
         List<Jobs> list = jobsRepo.getJobTable();
         return list;
     }
 
+>>>>>>> ac474d05848d2faf3e85fded44b47c4e41f39362
     public ResponseDTO getAllJobPage(Integer pageNumber, Integer pageSize) {
-//        if (pageSize >= 1 && pageNumber >= 0) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         Page<Jobs> jobsPage = repoJpa.findAll(pageable);
         long totalRecord = jobsPage.getTotalElements();
         List<Jobs> list = jobsPage.getContent();
         return new ResponseDTO(totalRecord, list);
-//        } else {
-//            Pageable pageable = PageRequest.of(0, 20);
-//            Page<Jobs> jobsPage = jobRepo.findAll(pageable);
-//            long totalRecord = jobsPage.getTotalElements();
-//            List<Jobs> list = jobsPage.getContent();
-//            return new ResponseDto(totalRecord, list);
-//        }
     }
 
     @Override
@@ -67,6 +62,5 @@ public class JobsServiceimpl implements JobsService {
         List<Jobs> jobs = jobRepo.search(jobSearchVM);
         return jobs;
     }
-
 
 }
