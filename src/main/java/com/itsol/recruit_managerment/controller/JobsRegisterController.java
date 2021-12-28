@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 @RestController
-@RequestMapping("/{$spring.data.rest.base-path}/jobsRegister")
+@RequestMapping("/{$spring.data.rest.base-path}/admin/jobsRegister")
 
 public class JobsRegisterController {
 
