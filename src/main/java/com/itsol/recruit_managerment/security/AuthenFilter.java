@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 
 public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
+    private String SECRET_KEY = "secret";
     @Autowired
     UserService appUserService;
 
@@ -70,9 +71,14 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
                 .withExpiresAt(new Date(System.currentTimeMillis() + 20 * 60 * 1000))
                 .withClaim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
+
         Map<String, String> tokenObj = new HashMap<>();
         tokenObj.put("token", token);
+        tokenObj.put("username",userDetails.getUsername());
+
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokenObj);
     }
+
 }
+

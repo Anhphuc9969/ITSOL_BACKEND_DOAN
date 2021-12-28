@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/{$spring.data.rest.base-path}/admin/jobsRegister")
+@RequestMapping("/{$spring.data.rest.base-path}/jobsRegister")
 
 public class JobsRegisterController {
 

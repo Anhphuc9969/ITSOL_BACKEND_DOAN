@@ -3,6 +3,7 @@ package com.itsol.recruit_managerment.controller;
 import com.itsol.recruit_managerment.config.AccountActivationConfig;
 import com.itsol.recruit_managerment.constant.ConstantDateTime;
 
+import com.itsol.recruit_managerment.dto.AuthenDTO;
 import com.itsol.recruit_managerment.dto.Metadata;
 import com.itsol.recruit_managerment.dto.CustomResponseDto;
 
@@ -12,6 +13,7 @@ import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
 import com.itsol.recruit_managerment.model.User;
 import com.itsol.recruit_managerment.repositories.RoleRepo;
+import com.itsol.recruit_managerment.security.AuthorFilter;
 import com.itsol.recruit_managerment.service.AdminService;
 import com.itsol.recruit_managerment.service.UserService;
 
@@ -26,12 +28,18 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -54,8 +62,8 @@ public class AdminController {
     AdminService adminService;
 
 
-    @PostMapping("/signupje")
 
+    @PostMapping("/signupje")
     public ResponseEntity<String> singupje(@RequestBody UserSignupDTO userSignupDTO) {
         Role role = roleRepo.findByName("ROLE_JE");
         User user = userServiceimpl.createUser(userSignupDTO);
@@ -138,7 +146,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/all")
+    @PostMapping ("/all")
     @ResponseBody
     public ResponseEntity<CustomResponseDto<Page<User>>> findAll(
             @RequestParam(value = "p", defaultValue = "0") int page,
