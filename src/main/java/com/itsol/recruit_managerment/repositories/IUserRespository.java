@@ -42,6 +42,7 @@ public interface IUserRespository extends JpaRepository<User, Long> {
                                            @Param("email") String email);
 
 
+//    void getUserById();
 }
 
 

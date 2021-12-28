@@ -1,6 +1,9 @@
 package com.itsol.recruit_managerment.serviceimpl;
 
-
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.itsol.recruit_managerment.dto.PasswordDTO;
 import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.email.EmailServiceImpl;
@@ -26,8 +29,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
+import com.auth0.jwt.JWTVerifier;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import javax.xml.stream.XMLStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +42,7 @@ import java.util.Random;
 @Service
 @Transactional
 public class UserServiceimpl implements UserService {
+
     @Autowired
     RoleRepo roleRepo;
     @Autowired
@@ -282,26 +288,10 @@ public class UserServiceimpl implements UserService {
 
     }
 
-//=======
-//    public User createUser(UserSignupDTO userSignupDTO) {
-//        return User.builder()
-//                .fullName(userSignupDTO.getFullName())
-//                .email(userSignupDTO.getEmail())
-//                .phoneNumber(userSignupDTO.getPhoneNumber())
-//                .homeTown(userSignupDTO.getHomeTown())
-//                .gender(userSignupDTO.getGender())
-//                .userName(userSignupDTO.getUserName())
-//                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
-//                .build();
-//    }
-//
-//    @Override
-//    public Object getAllJE() {
-//        return   userRepo.getAllJE();
-//    }
-//
-//
-//>>>>>>> main:src/main/java/com/itsol/recruit_managerment/service/UserServiceimpl.java
+
+
+
+
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepo.findByUserName(userName);
@@ -350,5 +340,14 @@ public class UserServiceimpl implements UserService {
         } catch (Exception e) {
             return CommonConst.ERROR;
         }
+    }
+    @Override
+    public Object getUserInfo(HttpServletRequest request) {
+        String authorHeader = request.getHeader("Authorization");
+        String token = authorHeader.substring("Bearer ".length());
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = verifier.verify(token);
+        return decodedJWT.getClaim("roles").asArray(String.class);
     }
 }

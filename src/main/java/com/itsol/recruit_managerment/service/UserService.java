@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public interface UserService extends UserDetailsService {
     User getUser(String username);
 
     User getUserById(Long id);
-
+    Object getUserInfo(HttpServletRequest request);
     List<User> getAllUsers();
 
     OTP generateOTP(User user);

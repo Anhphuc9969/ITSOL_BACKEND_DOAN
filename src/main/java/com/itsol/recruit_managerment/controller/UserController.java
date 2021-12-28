@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
@@ -109,7 +110,11 @@ public class UserController {
         return userService.searchName(fullName);
 
     }
+    @GetMapping("/getuserinfo")
+    public ResponseEntity getProfile(HttpServletRequest request) {
+        return ResponseEntity.ok().body(userService.getUserInfo(request));
 
+    }
     @GetMapping("/users/info/get-otp")
     public ResponseEntity<String> getOTP() {
         try {
