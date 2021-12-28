@@ -11,4 +11,5 @@ import java.util.List;
 public class ResponseDTO<T>{
     long totalRecord;
     List<T> data;
+
 }

@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.controller;
 
+
 import com.itsol.recruit_managerment.dto.JobRegisterDTO;
 import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
@@ -10,7 +11,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.nio.file.Files;
@@ -38,7 +41,6 @@ public class JobsRegisterController {
         return jobRegisterImpl.getJobsRegister(id);
     }
 
-
     @PostMapping("/search")
     @CrossOrigin
     public ResponseEntity<ResponseDTO<JobsRegister>> search(@RequestBody JobRegisterSearchVm jobRegisterSearchVm, @RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
@@ -49,8 +51,8 @@ public class JobsRegisterController {
 
     @PutMapping("/update")
     @CrossOrigin
-    public JobsRegister updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
-        return jobRegisterImpl.updateJobsRegister(jobRegisterDTO) ;
+    public JobsRegister updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO) {
+        return jobRegisterImpl.updateJobsRegister(jobRegisterDTO);
     }
 
 
@@ -88,5 +90,18 @@ public class JobsRegisterController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
+
+    @PostMapping
+    @CrossOrigin
+    public ResponseEntity<?> applyCv(@RequestPart String userId, @RequestPart MultipartFile cvFile,
+                                     @RequestPart String jobId, @RequestPart String shortDescription) throws Exception {
+        if (ObjectUtils.isEmpty(cvFile) || cvFile.isEmpty()) {
+            return new ResponseEntity<>("CV is required", HttpStatus.BAD_REQUEST);
+        }
+        boolean result = jobRegisterImpl.apply(userId, jobId, cvFile, shortDescription);
+        return new ResponseEntity<>(result, result ? HttpStatus.CREATED : HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 }
 

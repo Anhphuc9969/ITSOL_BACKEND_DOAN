@@ -1,10 +1,8 @@
 package com.itsol.recruit_managerment.service;
 
-import com.itsol.recruit_managerment.dto.JobDTO;
 import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.repositories.JobsRepo;
-
 import com.itsol.recruit_managerment.repositories.jobrepo.JobRepo;
 import com.itsol.recruit_managerment.repositories.jobrepo.JobRepoJpa;
 import com.itsol.recruit_managerment.vm.JobSearchVM;
@@ -40,21 +38,30 @@ public class JobsServiceimpl implements JobsService {
         return list;
     }
 
-<<<<<<< HEAD
-=======
+
 
     public List<Jobs> getAllJobTable() {
         List<Jobs> list = jobsRepo.getJobTable();
         return list;
     }
 
->>>>>>> ac474d05848d2faf3e85fded44b47c4e41f39362
+
     public ResponseDTO getAllJobPage(Integer pageNumber, Integer pageSize) {
+
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         Page<Jobs> jobsPage = repoJpa.findAll(pageable);
         long totalRecord = jobsPage.getTotalElements();
         List<Jobs> list = jobsPage.getContent();
         return new ResponseDTO(totalRecord, list);
+
+//        } else {
+//            Pageable pageable = PageRequest.of(0, 20);
+//            Page<Jobs> jobsPage = jobRepo.findAll(pageable);
+//            long totalRecord = jobsPage.getTotalElements();
+//            List<Jobs> list = jobsPage.getContent();
+//            return new ResponseDto(totalRecord, list);
+//        }
+
     }
 
     @Override

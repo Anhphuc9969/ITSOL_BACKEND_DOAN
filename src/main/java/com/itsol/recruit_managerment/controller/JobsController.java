@@ -4,32 +4,28 @@ import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.service.JobsService;
 import com.itsol.recruit_managerment.service.JobsServiceimpl;
+import com.itsol.recruit_managerment.utils.FileUtil;
 import com.itsol.recruit_managerment.vm.JobSearchVM;
+import net.sf.jmimemagic.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.nio.file.Path;
-
 import org.springframework.util.StringUtils;
-
-
 import static java.nio.file.Files.copy;
 import static java.nio.file.Paths.get;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
-
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 
 @RestController
@@ -52,23 +48,21 @@ public class JobsController {
     public ResponseEntity<List<Jobs>> getJobs() {
         return new ResponseEntity<List<Jobs>>(jobsServiceimpl.getAllJob(), HttpStatus.OK);
     }
-//    @GetMapping("/getalljob")
-//    @CrossOrigin
-//    public ResponseEntity<List<Jobs>> getJobss()  {
-//        return new ResponseEntity<>(jobsServiceimpl.getAllJobTable(), HttpStatus.OK);
-//    }
 
 
     @GetMapping("/getAllPage")
     @CrossOrigin
-    public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
+    public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber,
+                                              @RequestParam("pageSize") int pageSize) {
         ResponseDTO responseDTO = jobsServiceimpl.getAllJobPage(pageNumber, pageSize);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
+
     @PostMapping("/file/upload")
 //    @CrossOrigin
-    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles) throws IOException {
+    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles) throws
+            IOException, MagicMatchNotFoundException, MagicException, MagicParseException {
         List<String> filenames = new ArrayList<>();
         for (MultipartFile file : multipartFiles) {
             String filename = StringUtils.cleanPath(file.getOriginalFilename());
@@ -101,3 +95,4 @@ public class JobsController {
     }
 
 }
+

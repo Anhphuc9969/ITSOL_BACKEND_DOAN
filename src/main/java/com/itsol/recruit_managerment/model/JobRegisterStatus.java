@@ -16,6 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+
 @Table(name = "job_register_status")
 public class JobRegisterStatus implements Serializable {
     @Id
