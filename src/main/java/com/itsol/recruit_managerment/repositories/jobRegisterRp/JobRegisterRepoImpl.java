@@ -2,6 +2,10 @@ package com.itsol.recruit_managerment.repositories.jobRegisterRp;
 
 import com.itsol.recruit_managerment.model.*;
 import com.itsol.recruit_managerment.repositories.*;
+import com.itsol.recruit_managerment.repositories.IUserRespository;
+import com.itsol.recruit_managerment.repositories.JobsRepo;
+import com.itsol.recruit_managerment.repositories.JobStatusRepo;
+import com.itsol.recruit_managerment.repositories.ProfileRepo;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +25,7 @@ public class JobRegisterRepoImpl extends JobRegisterRepoBase implements JobRegis
     IUserRespository iUserRespository;
 
     @Autowired
-    JobRepo jobRepo;
+    JobsRepo jobRepo;
 
     @Autowired
     JobRegisterStatusRepo jobRegisterStatusRepo;

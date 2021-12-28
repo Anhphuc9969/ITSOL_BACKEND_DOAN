@@ -48,7 +48,7 @@ public class AccountController {
     UserServiceimpl userServiceimpl;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody UserSignupDTO userSignupDTO) {
+    public ResponseEntity<String> signup(@RequestBody(required = false) UserSignupDTO userSignupDTO) {
 
         Role role = roleRepo.findByName("ROLE_USER");
 
@@ -77,24 +77,6 @@ public class AccountController {
         return ResponseEntity.ok().body("check email for OTP");
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Object> authenticateUser(@Valid @RequestBody SigninRequest signinRequest){
-//        Authentication authentication= authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(signinRequest.getUsername(),signinRequest.getPassword()));
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String token = jwtHelper.generateJwtToken(authentication);
-//
-//        CustomUserDetail userDetail = (CustomUserDetail) authentication.getPrincipal();
-//        List<String> roles = userDetail.getAuthorities().stream()
-//                .map(item->item.getAuthority())
-//                .collect(Collectors.toList());
-//
-//        return ResponseEntity.ok(new JwtResponse(token,
-//                userDetail.get(),
-//                userDetail.getUsername(),
-//
-//                roles));
-//    }
     @GetMapping("/active/{id}")
     public ResponseEntity<String> activeAccount(@PathVariable Long id) {
         try {
