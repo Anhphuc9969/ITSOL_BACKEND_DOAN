@@ -141,7 +141,8 @@ public class JobRegisterServiceImpl implements JobRegisterService {
             throw new NullPointerException("Could not found user having id " + userId);
         }
         User user = userOptional.get();
-        Optional<Profiles> profileOptional = profileRepo.findByUsers(user);
+//        Optional<Profiles> profileOptional = profileRepo.findByUsers(user);
+        Optional<Profiles> profileOptional = profileRepo.findByUserId(user.getId());
         if (!profileOptional.isPresent()) {
             throw new NullPointerException("Could not found user having id " + userId);
         }
