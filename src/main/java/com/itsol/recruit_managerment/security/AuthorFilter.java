@@ -39,10 +39,6 @@ public class AuthorFilter extends OncePerRequestFilter {
                 DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-
-//                String userID = decodedJWT.getId();
-////                iUserRespository.getUserById();
-//               new ObjectMapper().writeValue(response.getOutputStream(), userID);
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
                 UsernamePasswordAuthenticationToken authenticationToken =

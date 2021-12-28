@@ -288,26 +288,10 @@ public class UserServiceimpl implements UserService {
 
     }
 
-//=======
-//    public User createUser(UserSignupDTO userSignupDTO) {
-//        return User.builder()
-//                .fullName(userSignupDTO.getFullName())
-//                .email(userSignupDTO.getEmail())
-//                .phoneNumber(userSignupDTO.getPhoneNumber())
-//                .homeTown(userSignupDTO.getHomeTown())
-//                .gender(userSignupDTO.getGender())
-//                .userName(userSignupDTO.getUserName())
-//                .password(passwordEncoder.encode(userSignupDTO.getPassword()))
-//                .build();
-//    }
-//
-//    @Override
-//    public Object getAllJE() {
-//        return   userRepo.getAllJE();
-//    }
-//
-//
-//>>>>>>> main:src/main/java/com/itsol/recruit_managerment/service/UserServiceimpl.java
+
+
+
+
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepo.findByUserName(userName);
