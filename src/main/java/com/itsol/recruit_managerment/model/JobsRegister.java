@@ -59,7 +59,15 @@ public class JobsRegister implements Serializable {
     String cvMimetype;
 
     @Column(name = "reason")
-    private String reason;
+    String reason;
+
+    @Column(name = "date_interview")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    Date dateInterview;
+
+    @Column(name = "method_interview")
+    String methodInterview;
 
     @Column(name = "short_description")
     private String shortDescription;

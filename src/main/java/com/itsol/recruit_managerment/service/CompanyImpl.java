@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
-public class CompanyImpl implements  CompanyService{
+public class CompanyImpl implements CompanyService {
     @Autowired
     private CompanyRepo companyRepo;
 
@@ -22,7 +23,7 @@ public class CompanyImpl implements  CompanyService{
     public Company findByID(Integer id) {
         try {
             Optional<Company> optional = companyRepo.findById(id);
-            if(optional.isPresent()) {
+            if (optional.isPresent()) {
                 return optional.get();
             }
             return null;

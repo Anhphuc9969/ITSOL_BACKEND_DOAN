@@ -5,6 +5,9 @@ import com.itsol.recruit_managerment.constant.JobRegisterStatusConstant;
 import com.itsol.recruit_managerment.dto.JobRegisterDTO;
 import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.*;
+import com.itsol.recruit_managerment.email.EmailServiceImpl;
+import com.itsol.recruit_managerment.model.JobRegisterStatus;
+import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.repositories.JobRegisterStatusRepo;
 import com.itsol.recruit_managerment.repositories.ProfileRepo;
 import com.itsol.recruit_managerment.repositories.UserRepo;
@@ -24,7 +27,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,10 +35,14 @@ import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import static com.itsol.recruit_managerment.constant.EmailConstant.CONTENT;
 
 @Slf4j
 @Service
 public class JobRegisterServiceImpl implements JobRegisterService {
+
+    @Autowired
+    EmailServiceImpl emailService;
 
     @Autowired
     JobsRegisterRepositoryJpa jobsRegisterRepositoryJpa;
@@ -72,9 +78,13 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     }
 
     @Override
-    public List<JobsRegister> search(JobRegisterSearchVm jobRegisterSearchVm) {
+    public ResponseDTO<JobsRegister> search(JobRegisterSearchVm jobRegisterSearchVm, Integer pageNumber, Integer pageSite) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSite, Sort.by(Sort.Direction.ASC, "id"));
+
+        Page<JobsRegister> jobPage = jobsRegisterRepositoryJpa.findAll(pageable);
+        long totalRecord = jobPage.getTotalElements();
         List<JobsRegister> jobsRegister = jobRegisterRepo.search(jobRegisterSearchVm);
-        return jobsRegister;
+        return new ResponseDTO(totalRecord, jobsRegister);
     }
 
     @Override
@@ -83,15 +93,13 @@ public class JobRegisterServiceImpl implements JobRegisterService {
     }
 
     @Override
-
     public JobsRegister updateJobsRegister(JobRegisterDTO jobRegisterDTO) {
         try {
             JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
             JobRegisterStatus jobRegisterStatus = jobRegisterStatusRepo.getById(jobRegisterDTO.getJobRegisterStatusId());
+            jobsRegister.setReason(jobRegisterDTO.getReason());
             jobsRegister.setJobRegisterStatus(jobRegisterStatus);
             jobsRegisterRepositoryJpa.save(jobsRegister);
-
-            System.out.println(jobsRegister);
             return jobsRegister;
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,7 +130,6 @@ public class JobRegisterServiceImpl implements JobRegisterService {
             throw new RuntimeException("Could not read the file!");
         }
         return resource;
-//        return Files.readAllBytes(Paths.get(jobsRegister.getCvFile()));
     }
 
     @Override
@@ -142,7 +149,7 @@ public class JobRegisterServiceImpl implements JobRegisterService {
         }
         User user = userOptional.get();
 //        Optional<Profiles> profileOptional = profileRepo.findByUsers(user);
-        Optional<Profiles> profileOptional = profileRepo.findByUserId(user.getId());
+        Optional<Profiles> profileOptional = Optional.ofNullable(profileRepo.findByUsers(user));
         if (!profileOptional.isPresent()) {
             throw new NullPointerException("Could not found user having id " + userId);
         }
@@ -214,5 +221,33 @@ public class JobRegisterServiceImpl implements JobRegisterService {
 //        return null;
 //    }
 
+    public Boolean sendMail(JobRegisterDTO jobRegisterDTO) {
+        try {
+            JobsRegister jobsRegister = jobsRegisterRepositoryJpa.getById(jobRegisterDTO.getId());
+            JobRegisterStatus jobRegisterStatus = jobRegisterStatusRepo.getById(jobRegisterDTO.getJobRegisterStatusId());
+            jobsRegister.setMethodInterview(jobRegisterDTO.getMethodInterview());
+            jobsRegister.setJobRegisterStatus(jobRegisterStatus);
+            jobsRegister.setDateInterview(jobRegisterDTO.getDateInterview());
+            jobsRegisterRepositoryJpa.save(jobsRegister);
+            if (jobsRegister.getJobRegisterStatus().getId() == 3) {
+                sendEmail(jobsRegister);
+            }
+            return true;
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return false;
+    }
+
+    public void sendEmail(JobsRegister jobsRegister) {
+        String Content = CONTENT;
+        Content = Content.replace("X", jobsRegister.getUser().getFullName());
+        Content = Content.replace("PTPV", jobsRegister.getMethodInterview());
+        Content = Content.replace("ABC", jobsRegister.getJobs().getJobName());
+        Content = Content.replace("DD", jobsRegister.getDateInterview().toString());
+        emailService.sendSimpleMessage(jobsRegister.getUser().getEmail(),
+                "Thư mời phỏng vấn",
+                Content);
+    }
 
 }

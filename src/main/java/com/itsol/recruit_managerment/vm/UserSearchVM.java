@@ -1,20 +1,18 @@
-package com.itsol.recruit_managerment.dto;
+package com.itsol.recruit_managerment.vm;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class JobRegisterDTO {
-    Integer id;
-    int jobRegisterStatusId;
-    String reason;
-    Date dateInterview;
-    String methodInterview;
+public class UserSearchVM {
+    String fullName;
+    String email;
+    String  username;
+    String phoneNumber;
 }

@@ -45,4 +45,16 @@ public class DesiredWorkServiceImpl implements DesireWorkService{
             return null;
         }
     }
+
+//    @Override
+//    public DesiredWork save(DesiredWork desiredwork) {
+//        try {
+//            return desiredWorkRepository.save(desiredwork);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.itsol.recruit_managerment.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,6 @@ public class Jobs implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     MethodWork methodWork;
-
 
     @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "academic_level_id", nullable = false)
@@ -79,9 +79,13 @@ public class Jobs implements Serializable {
     int quantityPerson;
 
     @Column(name = "create_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     Date createDate;
 
     @Column(name = "due_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     Date dueDate;
 
     @Column(name = "skills", nullable = false)
@@ -102,8 +106,7 @@ public class Jobs implements Serializable {
     @Column(name = "views", nullable = false)
     int view;
 
-    @Column(name = "is_delete", nullable = false)
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "is_delete")
     boolean isDelete;
 
 

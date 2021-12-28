@@ -26,6 +26,7 @@ public class Profiles implements Serializable {
     @Column(name = "user_id", insertable = false, updatable = false)
     Long userId;
 
+
     @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "user_id", nullable = false)
@@ -36,7 +37,7 @@ public class Profiles implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     DesiredWork desiredwork;
 
-    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_level_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     AcademicLevel academicLevel;

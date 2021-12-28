@@ -5,8 +5,11 @@ import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
 import com.itsol.recruit_managerment.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +25,7 @@ public interface UserService extends UserDetailsService {
     User getUser(String username);
 
     User getUserById(Long id);
-
+    Object getUserInfo(HttpServletRequest request);
     List<User> getAllUsers();
 
     OTP generateOTP(User user);
@@ -43,7 +46,13 @@ public interface UserService extends UserDetailsService {
 
     Object sendFogotPasswordMail(String email);
 
+    Object getAllJE();
+
+    Object getAllUSER();
+
     User loadUserFromContext();
 
-    Object getAllJE();
+
+    Page<User> getFullnameList(Pageable pageable, String userName, String fullName, String phoneNumber, String email);
+
 }
