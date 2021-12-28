@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseDTO<T>{
+public class ResponseDto<T>{
     long totalRecord;
     List<T> data;
 }
