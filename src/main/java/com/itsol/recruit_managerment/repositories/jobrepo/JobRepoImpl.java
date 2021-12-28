@@ -25,8 +25,8 @@ public class JobRepoImpl extends JobRepoBase implements JobRepo {
     @Autowired
     IUserRespository iUserRespository;
 
-    @Autowired
-    JobRepo jobRepo;
+//    @Autowired
+//    JobRepo jobRepo;
 
     @Autowired
     AcademicLevelRepo academicLevelRepo;

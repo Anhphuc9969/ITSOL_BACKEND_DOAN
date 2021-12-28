@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:Anhphuc9969
-    username: ITSOLGROUP
-    password: 123456
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: recruitment_management_itsol
+    password: pass
     driver-class-name: oracle.jdbc.driver.OracleDriver
   data:
     rest:

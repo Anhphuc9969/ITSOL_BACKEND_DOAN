@@ -1,8 +1,10 @@
 package com.itsol.recruit_managerment.service;
 
 import com.itsol.recruit_managerment.dto.JobDTO;
-import com.itsol.recruit_managerment.dto.ResponseDto;
+import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.Jobs;
+import com.itsol.recruit_managerment.repositories.JobsRepo;
+
 import com.itsol.recruit_managerment.repositories.jobrepo.JobRepo;
 import com.itsol.recruit_managerment.repositories.jobrepo.JobRepoJpa;
 import com.itsol.recruit_managerment.vm.JobSearchVM;
@@ -11,9 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +20,9 @@ import java.util.Optional;
 
 @Service
 public class JobsServiceimpl implements JobsService {
+
+    @Autowired
+    JobsRepo jobsRepo;
 
 //    @Autowired
     JobRepo jobRepo;
@@ -38,18 +40,19 @@ public class JobsServiceimpl implements JobsService {
         return list;
     }
 
+
     public List<Jobs> getAllJobTable() {
-        List<Jobs> list = jobRepo.getJobTable();
+        List<Jobs> list = jobsRepo.getJobTable();
         return list;
     }
 
-    public ResponseDto getAllJobPage(Integer pageNumber, Integer pageSize) {
+    public ResponseDTO getAllJobPage(Integer pageNumber, Integer pageSize) {
 //        if (pageSize >= 1 && pageNumber >= 0) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, "id"));
         Page<Jobs> jobsPage = repoJpa.findAll(pageable);
         long totalRecord = jobsPage.getTotalElements();
         List<Jobs> list = jobsPage.getContent();
-        return new ResponseDto(totalRecord, list);
+        return new ResponseDTO(totalRecord, list);
 //        } else {
 //            Pageable pageable = PageRequest.of(0, 20);
 //            Page<Jobs> jobsPage = jobRepo.findAll(pageable);

@@ -4,6 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itsol.recruit_managerment.repositories.IUserRespository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,6 +26,8 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 
 public class AuthorFilter extends OncePerRequestFilter {
+    @Autowired
+    IUserRespository iUserRespository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorHeader = request.getHeader("Authorization");
@@ -34,12 +39,17 @@ public class AuthorFilter extends OncePerRequestFilter {
                 DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+//                String userID = decodedJWT.getId();
+//                iUserRespository.getUserById(userID);
+//               new ObjectMapper().writeValue(response.getOutputStream(), userID);
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(username, null, authorities);
+                        new UsernamePasswordAuthenticationToken(username,roles , authorities);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
                 filterChain.doFilter(request, response);
+
             } catch (Exception e) {
                 response.addHeader("error", e.getMessage());
                 response.sendError(FORBIDDEN.value());

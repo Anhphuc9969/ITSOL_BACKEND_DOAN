@@ -1,7 +1,7 @@
 package com.itsol.recruit_managerment.controller;
 
 import com.itsol.recruit_managerment.dto.JobRegisterDTO;
-import com.itsol.recruit_managerment.dto.ResponseDto;
+import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.service.JobRegisterServiceImpl;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/{$spring.data.rest.base-path}/admin/jobsRegister")
+@RequestMapping("/{$spring.data.rest.base-path}/jobsRegister")
 
 public class JobsRegisterController {
 
@@ -23,8 +23,8 @@ public class JobsRegisterController {
 
     @GetMapping("/getAll")
     @CrossOrigin
-    public ResponseEntity<ResponseDto<JobsRegister>> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
-        ResponseDto<JobsRegister> response = jobRegisterImpl.getAllJobsRegister(pageNumber, pageSize);
+    public ResponseEntity<ResponseDTO<JobsRegister>> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
+        ResponseDTO<JobsRegister> response = jobRegisterImpl.getAllJobsRegister(pageNumber, pageSize);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

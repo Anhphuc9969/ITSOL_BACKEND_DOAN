@@ -1,7 +1,7 @@
 package com.itsol.recruit_managerment.controller;
 
 import com.itsol.recruit_managerment.dto.JobDTO;
-import com.itsol.recruit_managerment.dto.ResponseDto;
+import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.Jobs;
 import com.itsol.recruit_managerment.service.JobsService;
 import com.itsol.recruit_managerment.service.JobsServiceimpl;
@@ -53,18 +53,18 @@ public class JobsController {
     public ResponseEntity<List<Jobs>> getJobs() {
         return new ResponseEntity<List<Jobs>>(jobsServiceimpl.getAllJob(), HttpStatus.OK);
     }
-    @GetMapping("/getalljob")
-    @CrossOrigin
-    public ResponseEntity<List<Jobs>> getJobss()  {
-        return new ResponseEntity<>(jobsServiceimpl.getAllJobTable(), HttpStatus.OK);
-    }
+//    @GetMapping("/getalljob")
+//    @CrossOrigin
+//    public ResponseEntity<List<Jobs>> getJobss()  {
+//        return new ResponseEntity<>(jobsServiceimpl.getAllJobTable(), HttpStatus.OK);
+//    }
 
 
     @GetMapping("/getAllPage")
     @CrossOrigin
-    public ResponseEntity<ResponseDto> getAll(@RequestParam("pageNumber") int pageNumber,
+    public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber,
                                               @RequestParam("pageSize") int pageSize) {
-        ResponseDto responseDTO = jobsServiceimpl.getAllJobPage(pageNumber, pageSize);
+        ResponseDTO responseDTO = jobsServiceimpl.getAllJobPage(pageNumber, pageSize);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
