@@ -23,8 +23,8 @@ public class Profiles implements Serializable {
     Long id;
 
 
-    @Column(name = "user_id", insertable = false, updatable = false)
-    Long userId;
+//    @Column(name = "user_id", insertable = false, updatable = false)
+//    Long userId;
 
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)

@@ -183,6 +183,8 @@ public class JobRegisterServiceImpl implements JobRegisterService {
                 .reason(null)
                 .isDelete(false)
                 .shortDescription(shortDescription)
+                .methodInterview(null)
+                .dateInterview(null)
                 .build();
         JobsRegister savedJobRegister = jobsRegisterRepositoryJpa.save(jobsRegister);
         return !ObjectUtils.isEmpty(savedJobRegister);
