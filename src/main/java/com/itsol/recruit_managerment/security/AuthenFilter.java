@@ -76,6 +76,8 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         tokenObj.put("token", token);
         tokenObj.put("username",userDetails.getUsername());
 
+
+
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokenObj);
     }
