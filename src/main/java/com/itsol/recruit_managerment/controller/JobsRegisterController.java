@@ -6,11 +6,15 @@ import com.itsol.recruit_managerment.model.JobsRegister;
 import com.itsol.recruit_managerment.service.JobRegisterServiceImpl;
 import com.itsol.recruit_managerment.vm.JobRegisterSearchVm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -37,38 +41,52 @@ public class JobsRegisterController {
 
     @PostMapping("/search")
     @CrossOrigin
-    public List<JobsRegister> search(@RequestBody JobRegisterSearchVm jobRegisterSearchVm) {
-        return jobRegisterImpl.search(jobRegisterSearchVm);
+    public ResponseEntity<ResponseDTO<JobsRegister>> search(@RequestBody JobRegisterSearchVm jobRegisterSearchVm, @RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
+//        return jobRegisterImpl.search(jobRegisterSearchVm);
+        ResponseDTO<JobsRegister> response = jobRegisterImpl.search(jobRegisterSearchVm, pageNumber, pageSize);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/update")
     @CrossOrigin
-    public ResponseEntity<String> updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
-        Boolean flag = jobRegisterImpl.updateJobsRegister(jobRegisterDTO) ;
-        if (flag){
-            return ResponseEntity.ok().body("Update thành công");
-        }
-        return ResponseEntity.ok().body("Update thất bại");
+    public JobsRegister updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
+        return jobRegisterImpl.updateJobsRegister(jobRegisterDTO) ;
     }
-    
-//    @GetMapping("/getByName/{fullName}")
+
+
+    @PutMapping("/sendMail")
+    @CrossOrigin
+    public ResponseEntity<String> sendMail(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
+        if (jobRegisterImpl.sendMail(jobRegisterDTO)){
+            return ResponseEntity.ok().body("Send mail thanh cong");
+        }
+        return ResponseEntity.ok().body("send mail that bai");
+    }
+
+//    @GetMapping("/cv/download/{applicantId}")
 //    @CrossOrigin
-//    public List<JobsRegister> getByName(@PathVariable("fullName") String fullName){
-//        return jobRegisterImpl.searchName(fullName);
+//    public ResponseEntity<byte[]> downloadApplicantCv(@PathVariable("applicantId") int applicantId) throws Exception {
+//        byte[] cvContent = jobRegisterImpl.downloadCv(applicantId);
+//        JobsRegister jobsRegister = jobRegisterImpl.getJobsRegister(applicantId);
+//        String mimetype = jobsRegister.getCvMimetype();
+//        String cvFileName = jobRegisterImpl.getCvFileName(jobsRegister.getCvFile());
+//        if (ObjectUtils.isEmpty(jobsRegister)) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        return new ResponseEntity<>(cvContent, HttpUtil.createHeaderForDownloadFile(cvFileName, mimetype), HttpStatus.OK);
 //    }
 
-//    @GetMapping("/getByDate/{time}")
-//    @CrossOrigin
-//    public List<JobsRegister> getByTime(@PathVariable("time") String time){
-//        return jobRegisterImpl.searchDate(time);
-//    }
+    @GetMapping("/cv/download/{applicantId}")
+    @CrossOrigin
+    public ResponseEntity<Resource> downloadApplicantCv(@PathVariable("applicantId") int applicantId) throws Exception {
+        Resource resource = jobRegisterImpl.downloadCv(applicantId);
+        Path path = resource.getFile()
+                .toPath();
 
-//    @GetMapping("/getByVacancies/{vacancies}")
-//    @CrossOrigin
-//    public List<JobsRegister> getByVacancies(@PathVariable("vacancies") String vacancies){
-//        return jobRegisterImpl.searchVacancies(vacancies);
-//    }
-
-
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(path))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
 }
 

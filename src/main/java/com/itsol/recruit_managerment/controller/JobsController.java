@@ -1,5 +1,4 @@
 package com.itsol.recruit_managerment.controller;
-
 import com.itsol.recruit_managerment.dto.JobDTO;
 import com.itsol.recruit_managerment.dto.ResponseDTO;
 import com.itsol.recruit_managerment.model.Jobs;
@@ -62,8 +61,7 @@ public class JobsController {
 
     @GetMapping("/getAllPage")
     @CrossOrigin
-    public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber,
-                                              @RequestParam("pageSize") int pageSize) {
+    public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
         ResponseDTO responseDTO = jobsServiceimpl.getAllJobPage(pageNumber, pageSize);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }

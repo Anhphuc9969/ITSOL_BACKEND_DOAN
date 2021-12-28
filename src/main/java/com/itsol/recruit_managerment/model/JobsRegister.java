@@ -30,37 +30,48 @@ public class JobsRegister implements Serializable {
     Integer id;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     User user;
 
     @OneToOne(targetEntity = Jobs.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "jobs_id", nullable = false)
+    @JoinColumn(name = "jobs_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Jobs jobs;
 
-    @OneToOne(targetEntity = JobStatus.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "job_status_id", nullable = false)
+    @ManyToOne(targetEntity = JobRegisterStatus.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "job_register_status_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    JobStatus jobStatus;
+    JobRegisterStatus jobRegisterStatus;
 
     @OneToOne(targetEntity = Profiles.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "profiles_id", nullable = false)
+    @JoinColumn(name = "profiles_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Profiles profiles;
 
-    @Column(name = "application_time", nullable = false)
+    @Column(name = "application_time")
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     Date applicationTime;
 
-    @Column(name = "status", nullable = false)
-    String status;
-
-    @Column(name = "cv_file", nullable = false)
+    @Column(name = "cv_file")
     String cvFile;
 
-    @Column(name = "is_delete", nullable = false)
+    @Column(name = "cv_mimetype")
+    String cvMimetype;
+
+    @Column(name = "reason")
+    String reason;
+
+    @Column(name = "date_interview")
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    Date dateInterview;
+
+    @Column(name = "method_interview")
+    String methodInterview;
+
+    @Column(name = "is_delete")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     boolean isDelete;
 }
