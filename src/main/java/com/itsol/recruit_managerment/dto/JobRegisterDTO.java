@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,4 +15,6 @@ public class JobRegisterDTO {
     Integer id;
     int jobRegisterStatusId;
     String reason;
+    Date dateInterview;
+    String methodInterview;
 }

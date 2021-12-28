@@ -41,14 +41,26 @@ public class JobsRegisterController {
 
     @PostMapping("/search")
     @CrossOrigin
-    public List<JobsRegister> search(@RequestBody JobRegisterSearchVm jobRegisterSearchVm) {
-        return jobRegisterImpl.search(jobRegisterSearchVm);
+    public ResponseEntity<ResponseDTO<JobsRegister>> search(@RequestBody JobRegisterSearchVm jobRegisterSearchVm, @RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize) {
+//        return jobRegisterImpl.search(jobRegisterSearchVm);
+        ResponseDTO<JobsRegister> response = jobRegisterImpl.search(jobRegisterSearchVm, pageNumber, pageSize);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/update")
     @CrossOrigin
     public JobsRegister updateJobRegister(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
         return jobRegisterImpl.updateJobsRegister(jobRegisterDTO) ;
+    }
+
+
+    @PutMapping("/sendMail")
+    @CrossOrigin
+    public ResponseEntity<String> sendMail(@Valid @RequestBody JobRegisterDTO jobRegisterDTO){
+        if (jobRegisterImpl.sendMail(jobRegisterDTO)){
+            return ResponseEntity.ok().body("Send mail thanh cong");
+        }
+        return ResponseEntity.ok().body("send mail that bai");
     }
 
 //    @GetMapping("/cv/download/{applicantId}")
@@ -76,6 +88,5 @@ public class JobsRegisterController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
-
 }
 
