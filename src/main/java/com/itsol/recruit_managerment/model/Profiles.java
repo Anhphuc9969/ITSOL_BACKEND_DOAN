@@ -37,7 +37,7 @@ public class Profiles implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     DesiredWork desiredwork;
 
-    @OneToOne(targetEntity = AcademicLevel.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = AcademicLevel.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_level_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     AcademicLevel academicLevel;

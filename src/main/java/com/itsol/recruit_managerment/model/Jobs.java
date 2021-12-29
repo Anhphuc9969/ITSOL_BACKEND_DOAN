@@ -13,10 +13,12 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(name = "jobs")
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "jobs")
+//@Table
 public class Jobs implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_ROLE_ID")
@@ -24,7 +26,7 @@ public class Jobs implements Serializable {
 //    @Column(name = "ID", nullable = false)
     @Column(nullable = false)
     private Long id;
-
+//
     @NotBlank(message = "fullName không được để trống")
     @ManyToOne(targetEntity = JobStatus.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "job_status_id", nullable = false, referencedColumnName = "id")
