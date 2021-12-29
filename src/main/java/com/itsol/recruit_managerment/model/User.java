@@ -57,7 +57,7 @@ public class User implements Serializable {
     Date birthDay;
 
     @Column(name = "IS_DELETE")
-    int isDelete;
+    Integer isDelete;
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Set<Role> roles = new HashSet<>();

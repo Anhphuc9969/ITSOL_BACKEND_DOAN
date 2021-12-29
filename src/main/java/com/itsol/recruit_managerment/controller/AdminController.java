@@ -20,6 +20,7 @@ import com.itsol.recruit_managerment.service.UserService;
 
 
 import com.itsol.recruit_managerment.serviceimpl.UserServiceimpl;
+import com.itsol.recruit_managerment.vm.UserSearchVM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -170,4 +171,9 @@ public class AdminController {
         return new ResponseEntity<>(customResponseDto, HttpStatus.OK);
     }
 
+    @PutMapping("/search")
+    public List<User> search(@Valid @RequestBody UserSearchVM searchJeVM, @RequestParam Integer pageIndex, @RequestParam Integer pageSize)
+    {
+        return  userService.searchJE(searchJeVM,pageIndex, pageSize);
+    }
 }

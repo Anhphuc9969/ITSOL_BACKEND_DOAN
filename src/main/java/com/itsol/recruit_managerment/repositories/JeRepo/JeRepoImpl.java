@@ -20,8 +20,8 @@
 //import java.util.Map;
 //
 //@Repository
-//    @Slf4j
-//    public class JeRepoImpl extends JeRepoBase implements jeRepo {
+//@Slf4j
+//public class JeRepoImpl extends JeRepoBase implements jeRepo {
 //
 //
 //

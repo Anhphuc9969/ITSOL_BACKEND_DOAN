@@ -5,6 +5,7 @@ import com.itsol.recruit_managerment.dto.UserSignupDTO;
 import com.itsol.recruit_managerment.model.OTP;
 import com.itsol.recruit_managerment.model.Role;
 import com.itsol.recruit_managerment.model.User;
+import com.itsol.recruit_managerment.vm.UserSearchVM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,7 +24,7 @@ public interface UserService extends UserDetailsService {
     void addRoleToUser(String username, String roleName);
 
     User getUser(String username);
-
+    List<User> searchJE(UserSearchVM searchJeVM, Integer pageIndex, Integer pageSize);
     User getUserById(Long id);
     Object getUserInfo(HttpServletRequest request);
     List<User> getAllUsers();
