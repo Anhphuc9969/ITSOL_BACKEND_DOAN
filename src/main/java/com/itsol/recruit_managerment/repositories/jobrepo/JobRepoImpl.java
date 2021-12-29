@@ -45,13 +45,16 @@ public class JobRepoImpl extends JobRepoBase implements JobRepo {
             StringBuilder stringBuilder = new StringBuilder();
             Map<String, Object> map = new HashMap<>();
 //            MapSqlParameterSource map = new MapSqlParameterSource();
-            stringBuilder.append("SELECT * FROM jobs  j,users  u,academic_level  a,job_status  js,level_rank  l,method_word  m \n ");
-            stringBuilder.append("WHERE j.job_status_id=js.id \n " +
-                    "and j.method_work_id=m.id \n" +
-                    "and j.academic_level_id=a.id \n" +
-                    "and j.level_rank_id=l.id \n" +
-                    "and j.create_id=u.id \n" +
-                    "and j.contact_id=u.id ");
+            stringBuilder.append("select * \n" +
+                    "from jobs j\n" +
+                    "left join job_status js on js.id = j.job_status_id\n" +
+                    "left join academic_level  a on j.academic_level_id=a.id \n" +
+                    "left join level_rank  l on j.level_rank_id=l.id \n" +
+                    "left join method_word  m on j.method_work_id=m.id \n" +
+                    "where 1=1\n" +
+                    "and js.id = 1\n" +
+                    "and j.due_date >= sysdate\n" +
+                    "and j.is_delete = 0\n");
             if (jobSearchVM.getSearchName() != null && !jobSearchVM.getSearchName().isEmpty()) {
                 stringBuilder.append(" and j.job_name =:jobname ");
                 map.put("jobname", jobSearchVM.getSearchName());
@@ -61,7 +64,9 @@ public class JobRepoImpl extends JobRepoBase implements JobRepo {
                 map.put("jobposition", jobSearchVM.getPositionName());
             }
             if (jobSearchVM.getApplicationTimeFrom() != null && jobSearchVM.getApplicationTimeTo() != null && !jobSearchVM.getApplicationTimeFrom().isEmpty() && !jobSearchVM.getApplicationTimeTo().isEmpty()) {
-                stringBuilder.append(" and j.create_date >=:todate and j.due_date <=:fromdate ");
+//                stringBuilder.append(" and j.create_date >=:todate and j.due_date <=:fromdate ");
+                stringBuilder.append(" and j.due_date >= to_date(:fromdate, 'YYYY-MM-DD') and j.due_date <= to_date(:todate, 'YYYY-MM-DD') ");
+//                " and jr.application_time between to_date(:applicationTimeFrom, 'yyyy-MM-dd') and to_date(:applicationTimeTo, 'yyyy-MM-dd')")
                 map.put("todate", jobSearchVM.getApplicationTimeTo());
                 map.put("fromdate", jobSearchVM.getApplicationTimeFrom());
 

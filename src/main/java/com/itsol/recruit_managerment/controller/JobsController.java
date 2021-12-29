@@ -51,7 +51,7 @@ public class JobsController {
 
 
     @GetMapping("/getAllPage")
-    @CrossOrigin
+//    @CrossOrigin
     public ResponseEntity<ResponseDTO> getAll(@RequestParam("pageNumber") int pageNumber,
                                               @RequestParam("pageSize") int pageSize) {
         ResponseDTO responseDTO = jobsServiceimpl.getAllJobPage(pageNumber, pageSize);
